@@ -20,7 +20,7 @@ SCRIPT=$0
 if [ "$SCRIPT" == "-bash" ]; then
   SCRIPT=${BASH_SOURCE[0]}
 fi
-export REPO_DIR=$(git rev-parse --show-toplevel)
+export REPO_DIR=$(git rev-parse --show-toplevel)/datalab
 
 # Turn off python's default behavior of generating .pyc files, so that we don't
 # end up picking up stale code when running samples or tests during development.

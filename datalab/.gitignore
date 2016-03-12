@@ -1,7 +1,7 @@
 *.ipynb_checkpoints
-datalab/build
-datalab/staging
-datalab/test
+build
+staging
+test
 *.gradle
 *.pyc
 *.idea
@@ -12,5 +12,5 @@ datalab/test
 # committed.
 # TODO(gram): We ideally want to be able to build the code in sources/server/src/shared as
 # a shared library instead, but Typescript doesn't support this elegantly yet.
-datalab/sources/server/src/node/app/shared
-datalab/sources/server/src/ui/scripts/app/shared
+sources/server/src/node/app/shared
+sources/server/src/ui/scripts/app/shared
