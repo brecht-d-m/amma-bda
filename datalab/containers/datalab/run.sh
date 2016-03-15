@@ -41,10 +41,11 @@ PROJECT_NUM=`gcloud -q alpha projects describe $PROJECT_ID | grep projectNumber 
 # Use this flag to map in web server content during development
 #  -v $REPO_DIR/sources/web:/sources \
 
-docker run -i --entrypoint=$ENTRYPOINT \
+docker run -d --entrypoint=$ENTRYPOINT \
   -p 8081:8080 \
   -v $HOME/datalab/log:/var/log/app_engine \
   -v $HOME/.config/gcloud:/root/.config/gcloud \
   -v $REPO_DIR/content:/content \
   -e "DATALAB_PROJECT_NUM=$PROJECT_NUM" \
-  -t datalab
+  datalab
+#  -t datalab
