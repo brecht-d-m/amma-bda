@@ -36,7 +36,7 @@ rm -f $HOME/datalab/log/custom_logs/*.log
 # For local runs we can get project number only from outside container.
 # So get it and then pass to container as DATALAB_PROJECT_NUM env var.
 PROJECT_ID=`gcloud -q config list --format yaml | grep project | awk -F" " '{print $2}'`
-PROJECT_NUM=`gcloud -q alpha projects describe $PROJECT_ID | grep projectNumber | awk '{print substr($2,2,length($2)-2)}'`
+PROJECT_NUM=`gcloud -q projects describe $PROJECT_ID | grep projectNumber | awk '{print substr($2,2,length($2)-2)}'`
 
 # Use this flag to map in web server content during development
 #  -v $REPO_DIR/sources/web:/sources \
