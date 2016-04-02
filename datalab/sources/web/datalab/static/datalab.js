@@ -529,6 +529,8 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
   })
   
   // Datatonic
+  var notebook_view = "full";
+  
   $('#devView').click(function() {
 	notebookView = "devView";
     console.log(notebookView);
@@ -548,6 +550,8 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
 	for (var idx = 0; idx < textCells.length; idx++) {
 		textCells[idx].style.display = styleText;
 	}  
+	  
+	notebook_view = "dev_view";
   });
 
   $('#fullView').click(function() {
@@ -569,6 +573,8 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
 	for (var idx = 0; idx < textCells.length; idx++) {
 		textCells[idx].style.display = styleText;
 	} 
+	  
+	notebook_view = "full_view";
   });
 
   $('#textView').click(function() {
@@ -590,6 +596,8 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
 	for (var idx = 0; idx < textCells.length; idx++) {
 		textCells[idx].style.display = styleText;
 	} 
+	  
+	notebook_view = "text_view";
   });
 	
   $('#exportView').click(function() {  
@@ -603,11 +611,26 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
       buttons: { 'OK': {} }
     };
     dialog.modal(dialogOptions);
+
+	// Remove all html
+	if(notebook_view == "dev_view") {
+	  var textCells = document.getElementsByClassName("text_cell");
+	  for (var idx = textCells.length-1; idx >= 0; idx--) {
+        textCells[idx].parentNode.removeChild(textCells[idx]);
+      }
+    }
+	if(notebook_view == "text_view") {
+      var codeCells  = document.getElementsByClassName("code_cell");
+	  for (var idx = codeCells.length-1; idx >= 0; idx--) {
+        codeCells[idx].parentNode.removeChild(codeCells[idx]);
+      }
+	}  
 	  
-	var notebook_cells = notebook.get_cells();
-	for(var idx = 0; idx < notebook_cells.length; idx++) {
-	  console.log(notebook_cells);	
-	}
+	// Remove from notebook object
+	// Not needed  
+	  
+	// Save notebook
+	notebook.save_notebook();
   });
 
   $('#addCodeCellButton').click(function() {
