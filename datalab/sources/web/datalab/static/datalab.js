@@ -591,6 +591,24 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
 		textCells[idx].style.display = styleText;
 	} 
   });
+	
+  $('#exportView').click(function() {  
+	var dialogContent =
+      '<p>By exporting this view, all the cell contents that are not shown will be deleted.</p>' +
+      '<p>We strongly advise to make a copy of your notebook first!</p>';
+
+    var dialogOptions = {
+      title: 'Exporting view',
+      body: $(dialogContent),
+      buttons: { 'OK': {} }
+    };
+    dialog.modal(dialogOptions);
+	  
+	var notebook_cells = notebook.get_cells();
+	for(var idx = 0; idx < notebook_cells.length; idx++) {
+	  console.log(notebook_cells);	
+	}
+  });
 
   $('#addCodeCellButton').click(function() {
     this.blur();
@@ -717,6 +735,19 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
     if (markup) {
       document.getElementById('help').innerHTML = markup;
     }
+  }
+	
+  function showExport(d) {
+    var dialogContent =
+      '<p>By exporting this view, all the cell contents that are not shown will be deleted.</p>' +
+      '<p>We strongly advise to make a copy of your notebook first!</p>';
+
+    var dialogOptions = {
+      title: 'Exporting view',
+      body: $(dialogContent),
+      buttons: { 'OK': {} }
+    };
+    d.modal(dialogOptions);
   }
 
   function updateNavigation() {
