@@ -17,6 +17,8 @@ var debug = {
   log: function() { console.log.apply(console, arguments); }
 };
 
+var notebookView = "fullView";
+
 function placeHolder() {}
 
 // Install Google Analytics - this is the standard tracking code, reformatted.
@@ -525,6 +527,70 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
   $('#convertPythonButton').click(function() {
     navigateAlternate('/nbconvert/python');
   })
+  
+  // Datatonic
+  $('#devView').click(function() {
+	notebookView = "devView";
+    console.log(notebookView);
+	
+	var styleCode = 'block';
+	var styleText = 'none';
+	  
+	document.getElementById("addCodeCellButton").style.display = styleCode;
+	document.getElementById("addMarkdownCellButton").style.display = styleText;
+	  
+	var codeCells  = document.getElementsByClassName("code_cell");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+	  
+	var textCells  = document.getElementsByClassName("text_cell");
+	for (var idx = 0; idx < textCells.length; idx++) {
+		textCells[idx].style.display = styleText;
+	}  
+  });
+
+  $('#fullView').click(function() {
+	notebookView = "fullView";
+    console.log(notebookView); 
+	  
+	var styleCode = 'block';
+	var styleText = 'block';
+	  
+	document.getElementById("addCodeCellButton").style.display = styleCode;
+	document.getElementById("addMarkdownCellButton").style.display = styleText;
+	  
+	var codeCells  = document.getElementsByClassName("code_cell");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+	  
+	var textCells  = document.getElementsByClassName("text_cell");
+	for (var idx = 0; idx < textCells.length; idx++) {
+		textCells[idx].style.display = styleText;
+	} 
+  });
+
+  $('#textView').click(function() {
+	notebookView = "textView";
+    console.log(notebookView);
+	  
+	var styleCode = 'none';
+	var styleText = 'block';
+	  
+	document.getElementById("addCodeCellButton").style.display = styleCode;
+	document.getElementById("addMarkdownCellButton").style.display = styleText;
+	  
+	var codeCells  = document.getElementsByClassName("code_cell");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+	  
+	var textCells  = document.getElementsByClassName("text_cell");
+	for (var idx = 0; idx < textCells.length; idx++) {
+		textCells[idx].style.display = styleText;
+	} 
+  });
 
   $('#addCodeCellButton').click(function() {
     this.blur();
