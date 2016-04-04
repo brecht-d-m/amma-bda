@@ -17,8 +17,6 @@ var debug = {
   log: function() { console.log.apply(console, arguments); }
 };
 
-var notebookView = "fullView";
-
 function placeHolder() {}
 
 // Install Google Analytics - this is the standard tracking code, reformatted.

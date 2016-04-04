@@ -1,4 +1,6 @@
-console.log("A wild Datatonic javascript file appeared");
+console.log("A wild Datatonic javascript file appeared!");
+
+var notebookView = "fullView";
 
 function initializeDatatonic(ipy, events, dialog, utils, security) {
   console.log("Should we catch it?");
@@ -31,7 +33,7 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
   });
 
   $('#fullView').click(function() {
-	  console.log("...Vrienden van de Analyse");
+	  console.log("...Dag vrienden van de Analyse!");
 	notebookView = "fullView";
     console.log(notebookView); 
 	  
@@ -55,6 +57,9 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
   });
 
   $('#textView').click(function() {
+	  
+	 console.log("Jet Fuel Can't Melt Steel Beams"); 
+	  
 	notebookView = "textView";
     console.log(notebookView);
 	  
@@ -78,6 +83,8 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
   });
 	
   $('#exportView').click(function() {  
+	console.log("meh");  
+	
 	var dialogContent =
       '<p>By exporting this view, all the cell contents that are not shown will be deleted.</p>' +
       '<p>We strongly advise to make a copy of your notebook first!</p>';
