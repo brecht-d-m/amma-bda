@@ -145,6 +145,15 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
 
     sendDataLabFile('datalab.js', response);
   }
+  else if (path.lastIndexOf('/datatonic.js') > 0) {
+    // NOTE: Uncomment to use external content mapped into the container.
+    //       This is only useful when actively developing the content itself.
+    // var text = fs.readFileSync('/sources/datalab/static/datalab.js', { encoding: 'utf8' });
+    // response.writeHead(200, { 'Content-Type': 'text/javascript' });
+    // response.end(text);
+
+    sendDataLabFile('datatonic.js', response);
+  }
   else if (path.lastIndexOf('/custom.css') > 0) {
     // NOTE: Uncomment to use external content mapped into the container.
     //       This is only useful when actively developing the content itself.
