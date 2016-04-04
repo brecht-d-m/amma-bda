@@ -43,6 +43,7 @@ PROJECT_NUM=`gcloud -q projects describe $PROJECT_ID | grep projectNumber | awk 
 
 docker run -d --entrypoint=$ENTRYPOINT \
   -p 8081:8080 \
+  -p 9000:9000 \
   -v $HOME/datalab/log:/var/log/app_engine \
   -v $HOME/.config/gcloud:/root/.config/gcloud \
   -v $REPO_DIR/content:/content \
