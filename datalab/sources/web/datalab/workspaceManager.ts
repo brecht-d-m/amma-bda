@@ -56,7 +56,7 @@ var callbackManager: callbacks.CallbackManager = new callbacks.CallbackManager()
  */
 function updateWorkspace(userId: string, userDir: string, repoUrl: string, workspaceName: string,
                          cb: common.Callback0) {
-  if (!appSettings.useWorkspace) {
+  /*if (!appSettings.useWorkspace) {
     process.nextTick(function() {
       cb(null);
     });
@@ -70,6 +70,18 @@ function updateWorkspace(userId: string, userDir: string, repoUrl: string, works
   childProcess.exec(wsyncSyncCommand, {env: process.env}, function(err, stdout, stderr) {
     if (err) {
       logging.getLogger().error(err, 'wsync sync failed for dir %s. stderr: %s', userDir, stderr);
+    }
+    cb && cb(err);
+  });*/
+
+  var gitSyncCommand = 'git --git-dir=/content/.git --work-tree=/content add .; ' + 
+        'git --git-dir=/content/.git --work-tree=/content commit -m "test_commit_node_js"; ' +
+        'git --git-dir=/content/.git --work-tree=/content push -u origin master';
+ 
+
+  childProcess.exec(gitSyncCommand, { env: process.env }, function (err, stdout, stderr) {
+    if (err) {
+      logging.getLogger().error(err, 'git sync failed for dir %s. stderr: %s', userDir, stderr);
     }
     cb && cb(err);
   });
@@ -119,11 +131,11 @@ export function init(settings: common.Settings): void {
  * Whether the workspace has been initialized for the given user.
  */
 export function isWorkspaceInitialized(userId: string): boolean {
-  if (!appSettings.useWorkspace) {
+  /*if (!appSettings.useWorkspace) {
     // Since the workspace feature is not supposed to be used, pretend it
     // is already initialized, and skip any real checks.
     return true;
-  }
+  }*/
 
   var userDir = userManager.getUserDir(userId);
   return (userWorkspaceInitialized[userDir] == true);
@@ -134,14 +146,14 @@ export function isWorkspaceInitialized(userId: string): boolean {
  * Otherwise, start the initialization and then sync.
  */
 export function updateWorkspaceNow(userId: string, cb: common.Callback0) {
-  if (!appSettings.useWorkspace) {
+  /*if (!appSettings.useWorkspace) {
     // Since the workspace feature is not supposed to be used, skip any
     // actual updating logic.
     process.nextTick(function() {
       cb(null);
     });
     return;
-  }
+  }*/
 
   var userDir = userManager.getUserDir(userId);
   if (!callbackManager.checkOngoingAndRegisterCallback(userId, cb)) {
@@ -171,11 +183,11 @@ export function updateWorkspaceNow(userId: string, cb: common.Callback0) {
  * user, do nothing.
  */
 export function scheduleWorkspaceUpdate(userId: string) {
-  if (!appSettings.useWorkspace) {
+  /*if (!appSettings.useWorkspace) {
     // Since the workspace feature is not supposed to be used, skip any
     // actual updating logic.
     return;
-  }
+  }*/
 
   if (syncRequests[userId]) {
     // A sync is already scheduled and will run soon.
