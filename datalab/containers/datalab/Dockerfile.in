@@ -64,6 +64,7 @@ RUN pip install -U \
     pip install -U seaborn==0.6.0 && \
     pip install -U notebook==4.0.2 && \
     pip install -U PyYAML==3.11 && \
+	pip install ipywidgets && \
     easy_install pip && \
     find /usr/local/lib/python2.7 -type d -name tests | xargs rm -rf
 
@@ -134,6 +135,8 @@ RUN ln -s /datalab/web/static/extensions/charting.js /datalab/nbconvert/charting
     ln -s /usr/local/lib/python2.7/dist-packages/notebook/static/custom/custom.css /datalab/nbconvert/custom.css && \
     ln -s /datalab/web/static/extensions/charting.css /datalab/nbconvert/charting.css && \
     ln -s /datalab/web/static/datalab.css /datalab/nbconvert/datalab.css
+
+EXPOSE 9000
 
 # Startup
 ENV DATALAB_VERSION _version_

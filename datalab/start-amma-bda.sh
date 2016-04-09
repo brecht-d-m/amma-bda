@@ -1,6 +1,6 @@
 #!/bin/sh
 # AMMA - BDA
-REPO_DIR=/usr/share/datalab
+export REPO_DIR=/usr/share/datalab
 
 # Stop all docker images
 docker stop $(docker ps -a -q) > /dev/null 2>&1
