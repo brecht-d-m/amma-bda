@@ -19,6 +19,11 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
 	document.getElementById("addCodeCellButton").style.display = styleCode;
 	document.getElementById("addMarkdownCellButton").style.display = styleText;
 	  
+        var codeCells  = document.getElementsByClassName("input");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+
 	var codeCells  = document.getElementsByClassName("code_cell");
 	for (var idx = 0; idx < codeCells.length; idx++) {
 		codeCells[idx].style.display = styleCode;
@@ -42,7 +47,12 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
 	  
 	document.getElementById("addCodeCellButton").style.display = styleCode;
 	document.getElementById("addMarkdownCellButton").style.display = styleText;
-	  
+	
+        var codeCells  = document.getElementsByClassName("input");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+  
 	var codeCells  = document.getElementsByClassName("code_cell");
 	for (var idx = 0; idx < codeCells.length; idx++) {
 		codeCells[idx].style.display = styleCode;
@@ -69,6 +79,11 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
 	document.getElementById("addCodeCellButton").style.display = styleCode;
 	document.getElementById("addMarkdownCellButton").style.display = styleText;
 	  
+        var codeCells  = document.getElementsByClassName("input");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+
 	var codeCells  = document.getElementsByClassName("code_cell");
 	for (var idx = 0; idx < codeCells.length; idx++) {
 		codeCells[idx].style.display = styleCode;
@@ -80,6 +95,37 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
 	} 
 	  
 	notebook_view = "text_view";
+  });
+
+  $('#textOutputView').click(function() {
+	  
+	console.log("Where is my mind?"); 
+	  
+	notebookView = "textOutputView";
+        console.log(notebookView);
+	  
+	var styleCode = 'none';
+	var styleText = 'block';
+	  
+	document.getElementById("addCodeCellButton").style.display = styleCode;
+	document.getElementById("addMarkdownCellButton").style.display = styleText;
+	
+	var codeCells  = document.getElementsByClassName("code_cell");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleText;
+	}
+  
+	var codeCells  = document.getElementsByClassName("input");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
+	  
+	var textCells  = document.getElementsByClassName("text_cell");
+	for (var idx = 0; idx < textCells.length; idx++) {
+		textCells[idx].style.display = styleText;
+	} 
+	  
+	notebook_view = "text_output_view";
   });
 	
   $('#exportView').click(function() {  

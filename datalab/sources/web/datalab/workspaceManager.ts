@@ -51,40 +51,34 @@ var userWorkspaceInitialized: common.Map<boolean> = {};
  */
 var callbackManager: callbacks.CallbackManager = new callbacks.CallbackManager();
 
+function makeCommitId()
+{
+    var text = "";
+    var possible = "abcdefghijklmnopqrstuvwxyz";
+
+    for(var i=0; i < 10; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 /**
  * Calls 'wsync sync' to do an on-demand sync
  */
 function updateWorkspace(userId: string, userDir: string, repoUrl: string, workspaceName: string,
                          cb: common.Callback0) {
-  /*if (!appSettings.useWorkspace) {
-    process.nextTick(function() {
-      cb(null);
-    });
-    return;
-  }
-  var userName: string = userId.split('@')[0];
-  var wsyncSyncCommand = '/wsync/wsync -credential_helper git-credential-gcloud.sh' + 
-                         ' -username ' + userName + ' -email ' + userId + ' sync' +
-                         ' -file-strategy ours -workdir ' + userDir + ' ' + repoUrl + ' ' +
-                         workspaceName;
-  childProcess.exec(wsyncSyncCommand, {env: process.env}, function(err, stdout, stderr) {
-    if (err) {
-      logging.getLogger().error(err, 'wsync sync failed for dir %s. stderr: %s', userDir, stderr);
-    }
-    cb && cb(err);
-  });*/
+  var commitMessage = makeCommitId();
 
-  var gitSyncCommand = 'git --git-dir=/content/.git --work-tree=/content add .; ' + 
-        'git --git-dir=/content/.git --work-tree=/content commit -m "test_commit_node_js"; ' +
-        'git --git-dir=/content/.git --work-tree=/content push -u origin master';
+    var gitSyncCommand = 'git --git-dir=' + userDir + '/.git --work-tree=' + userDir + ' add .; ' + 
+        'git --git-dir=' + userDir + '/.git --work-tree=' + userDir + ' commit -m "' + commitMessage + '"; ' +
+        'git --git-dir=' + userDir + '/.git --work-tree=' + userDir + ' push -u -f origin master';
  
-
-  childProcess.exec(gitSyncCommand, { env: process.env }, function (err, stdout, stderr) {
-    if (err) {
-      logging.getLogger().error(err, 'git sync failed for dir %s. stderr: %s', userDir, stderr);
-    }
-    cb && cb(err);
-  });
+    childProcess.exec(gitSyncCommand, { env: process.env }, function (err, stdout, stderr) {
+        if (err) {
+            logging.getLogger().error(err, 'git sync failed for dir %s. stderr: %s', userDir, stderr);
+        }
+        cb && cb(err);
+    });
 }
 
 /**
@@ -92,29 +86,15 @@ function updateWorkspace(userId: string, userDir: string, repoUrl: string, works
  */
 function initializeWorkspace(userId: string, userDir: string, repoUrl: string, workspaceName: string,
                             branch: string, cb: common.Callback0) {
-  var gitCloneCommand = 'git clone -b ' + branch + ' --single-branch ' + repoUrl + ' ' +  userDir;
-  childProcess.exec(gitCloneCommand, {env: process.env}, function(err, stdout, stderr) {
-    if (err) {
-      logging.getLogger().error(err, 'git clone failed for dir %s. stderr: %s', userDir, stderr);
-      cb && cb(err);
-      return;
-    }
-
-    // Proceed with 'wsync checkout' command.
-    var wsyncCheckoutCommand = '/wsync/wsync -credential_helper git-credential-gcloud.sh checkout' +
-                               ' -workdir ' + userDir + ' ' + repoUrl + ' ' + workspaceName;
-    childProcess.exec(wsyncCheckoutCommand, {env: process.env}, function(err, stdout, stderr) {
-      if (err) {
-        logging.getLogger().error(err, 'wsync checkout failed for dir %s. stderr: %s',
-                                  userDir, stderr);
-        cb && cb(err);
-        return;
-      }
-
-      // Proceed with 'wsync sync' command.
-      updateWorkspace(userId, userDir, repoUrl, workspaceName, cb);
+  // TODO; find good way to define user + repoURL + first time login
+    var gitCloneCommand = 'git clone -b ' + branch + ' --single-branch ' + repoUrl + ' ' + userDir;
+    childProcess.exec(gitCloneCommand, { env: process.env }, function (err, stdout, stderr) {
+        if (err) {
+            logging.getLogger().error(err, 'git clone failed for dir %s. stderr: %s', userDir, stderr);
+            cb && cb(err);
+            return;
+        }
     });
-  });
 }
 
 /**
@@ -124,19 +104,14 @@ export function init(settings: common.Settings): void {
   appSettings = settings;
 
   branchName = 'datalab_' + settings.instanceName;
-  repoUrl = 'https://source.developers.google.com/p/' + settings.projectId;
+  //repoUrl = 'https://source.developers.google.com/p/' + settings.projectId;
+  repoUrl = 'https://github.com/brecht-d-m/test.git' // Via bash variable
 }
 
 /**
  * Whether the workspace has been initialized for the given user.
  */
 export function isWorkspaceInitialized(userId: string): boolean {
-  /*if (!appSettings.useWorkspace) {
-    // Since the workspace feature is not supposed to be used, pretend it
-    // is already initialized, and skip any real checks.
-    return true;
-  }*/
-
   var userDir = userManager.getUserDir(userId);
   return (userWorkspaceInitialized[userDir] == true);
 }
@@ -146,15 +121,6 @@ export function isWorkspaceInitialized(userId: string): boolean {
  * Otherwise, start the initialization and then sync.
  */
 export function updateWorkspaceNow(userId: string, cb: common.Callback0) {
-  /*if (!appSettings.useWorkspace) {
-    // Since the workspace feature is not supposed to be used, skip any
-    // actual updating logic.
-    process.nextTick(function() {
-      cb(null);
-    });
-    return;
-  }*/
-
   var userDir = userManager.getUserDir(userId);
   if (!callbackManager.checkOngoingAndRegisterCallback(userId, cb)) {
     return;
@@ -183,12 +149,6 @@ export function updateWorkspaceNow(userId: string, cb: common.Callback0) {
  * user, do nothing.
  */
 export function scheduleWorkspaceUpdate(userId: string) {
-  /*if (!appSettings.useWorkspace) {
-    // Since the workspace feature is not supposed to be used, skip any
-    // actual updating logic.
-    return;
-  }*/
-
   if (syncRequests[userId]) {
     // A sync is already scheduled and will run soon.
     return;
