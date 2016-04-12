@@ -1,131 +1,53 @@
-console.log("A wild Datatonic javascript file appeared!");
+console.log("\n\n...\nA wild Datatonic jQuery widget appeared!\n...\n\n");
 
 var notebookView = "fullView";
 
 function initializeDatatonic(ipy, events, dialog, utils, security) {
-  console.log("Should we catch it?");
-	
   // Datatonic
   var notebook_view = "full";
   
   $('#devView').click(function() {
-	  console.log("You found the hidden treasure!");
-	notebookView = "devView";
-    console.log(notebookView);
-	
-	var styleCode = 'block';
-	var styleText = 'none';
+	  notebookView = "devView";
+	  notebook_view = "dev_view";
 	  
-	document.getElementById("addCodeCellButton").style.display = styleCode;
-	document.getElementById("addMarkdownCellButton").style.display = styleText;
+	  var styleCode = 'block';
+	  var styleInput = 'block';
+	  var styleText = 'none';
 	  
-        var codeCells  = document.getElementsByClassName("input");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-
-	var codeCells  = document.getElementsByClassName("code_cell");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-	  
-	var textCells  = document.getElementsByClassName("text_cell");
-	for (var idx = 0; idx < textCells.length; idx++) {
-		textCells[idx].style.display = styleText;
-	}  
-	  
-	notebook_view = "dev_view";
+	  changeView(styleCode, styleInput, styleText);
   });
 
   $('#fullView').click(function() {
-	  console.log("...Dag vrienden van de Analyse!");
-	notebookView = "fullView";
-    console.log(notebookView); 
+	  notebookView = "fullView";
+	  notebook_view = "full_view";
 	  
-	var styleCode = 'block';
-	var styleText = 'block';
+	  var styleCode = 'block';
+	  var styleInput = 'block';
+	  var styleText = 'block';
 	  
-	document.getElementById("addCodeCellButton").style.display = styleCode;
-	document.getElementById("addMarkdownCellButton").style.display = styleText;
-	
-        var codeCells  = document.getElementsByClassName("input");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-  
-	var codeCells  = document.getElementsByClassName("code_cell");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-	  
-	var textCells  = document.getElementsByClassName("text_cell");
-	for (var idx = 0; idx < textCells.length; idx++) {
-		textCells[idx].style.display = styleText;
-	} 
-	  
-	notebook_view = "full_view";
+	  changeView(styleCode, styleInput, styleText);
   });
 
   $('#textView').click(function() {
+	  notebookView = "textView";
+	  notebook_view = "text_view";
 	  
-	 console.log("Jet Fuel Can't Melt Steel Beams"); 
+	  var styleCode = 'none';
+	  var styleInput = 'none';
+	  var styleText = 'block';
 	  
-	notebookView = "textView";
-    console.log(notebookView);
-	  
-	var styleCode = 'none';
-	var styleText = 'block';
-	  
-	document.getElementById("addCodeCellButton").style.display = styleCode;
-	document.getElementById("addMarkdownCellButton").style.display = styleText;
-	  
-        var codeCells  = document.getElementsByClassName("input");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-
-	var codeCells  = document.getElementsByClassName("code_cell");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-	  
-	var textCells  = document.getElementsByClassName("text_cell");
-	for (var idx = 0; idx < textCells.length; idx++) {
-		textCells[idx].style.display = styleText;
-	} 
-	  
-	notebook_view = "text_view";
+	  changeView(styleCode, styleInput, styleText);
   });
 
   $('#textOutputView').click(function() {
+	  notebookView = "textOutputView";
+	  notebook_view = "text_output_view";
 	  
-	console.log("Where is my mind?"); 
+	  var styleCode = 'block';
+	  var styleText = 'block';
+	  var styleInput = 'none';
 	  
-	notebookView = "textOutputView";
-        console.log(notebookView);
-	  
-	var styleCode = 'none';
-	var styleText = 'block';
-	  
-	document.getElementById("addCodeCellButton").style.display = styleCode;
-	document.getElementById("addMarkdownCellButton").style.display = styleText;
-	
-	var codeCells  = document.getElementsByClassName("code_cell");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleText;
-	}
-  
-	var codeCells  = document.getElementsByClassName("input");
-	for (var idx = 0; idx < codeCells.length; idx++) {
-		codeCells[idx].style.display = styleCode;
-	}
-	  
-	var textCells  = document.getElementsByClassName("text_cell");
-	for (var idx = 0; idx < textCells.length; idx++) {
-		textCells[idx].style.display = styleText;
-	} 
-	  
-	notebook_view = "text_output_view";
+	  changeView(styleCode, styleInput, styleText);
   });
 	
   $('#exportView').click(function() {  
@@ -162,6 +84,26 @@ function initializeDatatonic(ipy, events, dialog, utils, security) {
 	// Save notebook
 	notebook.save_notebook();
   });
+	
+  function changeView(styleCode, styleInput, styleText) {
+	  document.getElementById("addCodeCellButton").style.display = styleCode;
+	  document.getElementById("addMarkdownCellButton").style.display = styleText;
+	  
+	  var codeCells  = document.getElementsByClassName("code_cell");
+	  for (var idx = 0; idx < codeCells.length; idx++) {
+		  codeCells[idx].style.display = styleCode;
+	  }
+	  
+	  var codeCells  = document.getElementsByClassName("input");
+	  for (var idx = 0; idx < codeCells.length; idx++) {
+		  codeCells[idx].style.display = styleInput;
+	  }
+	  
+	  var textCells  = document.getElementsByClassName("text_cell");
+	  for (var idx = 0; idx < textCells.length; idx++) {
+		  textCells[idx].style.display = styleText;
+	  } 
+  }
 }
 
 require(['base/js/namespace', 'base/js/events', 'base/js/dialog', 'base/js/utils', 'base/js/security'],
