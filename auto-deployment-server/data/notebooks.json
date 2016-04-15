@@ -1,0 +1,14 @@
+{
+  "notebook1" : {
+    "title" : "goddamn notebook",
+    "user" : "bmiddag",
+    "url" : "http://some.goddamn.location/goddamn%20notebook.ipynb",
+    "view": "full"
+  },
+  "notebook2" : {
+    "title" : "what, ANOTHER notebook?",
+    "user" : "ikzelf",
+    "url" : "http://some.goddamn.location/what%20ANOTHER%20notebook.ipynb",
+    "view": "text"
+  }
+}
