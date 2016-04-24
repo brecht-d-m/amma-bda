@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Google Cloud DataLab</title>
+  <title>Google Cloud DataLab - <%headerCompanyName%></title>
   <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -26,9 +26,11 @@
   data-user-id="<%userId%>">
 
   <div id="app">
-    <div id="appBar">
-      <span class="nav navbar-brand">
-        <button class="btn" title="Datatonic">Datatonic</button>
+    <div id="appBar" style="background-color: <%headerBackgroundColor%>; color: <%headerColor%>; font: <%headerFont%>">
+      <span id="logo" class="nav navbar-brand pull-left">
+		<a id="logo" href="<%headerCompanyLink%>" target="_blank">
+          <img src="<%headerCompanyLogo%>" alt="<%headerCompanyLogoAlt>" height="<%headerCompanyLogoHeight%>" width="<%headerCompanyWidth%>">
+        </a>
       </span>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
@@ -166,6 +168,9 @@
         </div>
       </div>
     </div>
+	<div id="footer" style="background-color: <%headerBackgroundColor%>; color: <%headerColor%>; font: <%headerFont%>"">
+	  <p class="text-muted">Made with &hearts; for <%headerCompanyName%></p>
+	</div>
   </div>
   <script src="/static/components/es6-promise/promise.min.js"></script>
   <script src="/static/components/requirejs/require.js"></script>

@@ -435,3 +435,17 @@ code {
     box-shadow: none !important;
   }
 }
+
+#footer {
+	padding: 0;
+	margin: 0;
+	margin-bottom: 0px;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	box-shadow: 0 0 8px 0 #000; 
+	text-align: center;
+	opacity: 1;
+	filter: alpha(opacity=100);
+	z-index: 10;
+}
