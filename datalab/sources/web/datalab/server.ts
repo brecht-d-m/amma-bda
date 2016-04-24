@@ -118,7 +118,7 @@ function handledAuthenticatedRequest(request: http.ServerRequest,
   // TODO(jupyter): Additional custom path - should go away eventually with replaced
   // pages.
   // /static and /custom paths for returning static content
-  if ((path.indexOf('/static') == 0) || (path.indexOf('/custom') == 0)) {
+  if ((path.indexOf('/static') == 0) || (path.indexOf('/custom') == 0) || (path.indexOf('/nbextensions') == 0)) {
     staticHandler(request, response);
     return;
   }

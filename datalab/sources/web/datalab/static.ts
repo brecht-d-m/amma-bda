@@ -23,6 +23,7 @@ import path = require('path');
 import url = require('url');
 
 var JUPYTER_DIR = '/usr/local/lib/python2.7/dist-packages/notebook';
+var IPYWIDGETS_DIR = '/usr/local/lib/python2.7/site-packages/ipywidgets/static';
 var CONTENT_TYPES: common.Map<string> = {
   '.js': 'text/javascript',
   '.css': 'text/css',
@@ -103,6 +104,22 @@ function sendJupyterFile(relativePath: string, response: http.ServerResponse) {
 }
 
 /**
+ * Sends a static file located within the IPYWidgets install.
+ * @param filePath the relative file path of the static file within the IPYWidgets directory to send.
+ * @param response the out-going response associated with the current HTTP request.
+ */
+function sendIPYWidgetsFile(relativePath: string, response: http.ServerResponse) {
+    var filePath = path.join(IPYWIDGETS_DIR, relativePath);
+    fs.stat(filePath, function (e, stats) {
+        if (e || !stats.isFile()) {
+            response.writeHead(404);
+            response.end();
+        }
+        sendFile(filePath, response);
+    });
+}
+
+/**
  * Checks whether a requested static file exists in DataLab.
  * @param filePath the relative path of the file.
  */
@@ -168,7 +185,12 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
     // Strip off the leading '/static/' to turn path into a relative path within the
     // static directory.
     sendDataLabFile(path.substr(8), response);
-  } else {
+  } 
+  else if (path.indexOf('/nbextensions/') == 0) {
+    // Strip off the leading slash to turn path into a relative file path
+    sendIPYWidgetsFile(path.substr(22), response);
+  }	
+  else {
     // Strip off the leading slash to turn path into a relative file path
     sendJupyterFile(path.substr(1), response);
   }
