@@ -30,7 +30,7 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 	require(['notebook/js/notebook'], function(ipy) {
 		var notebook = ipy.Notebook;
 
-		// A replacement notebook (safe) copy function
+		// A notebook (safe) copy function
 		notebook.prototype.safe_copy_notebook = function() {
 		  var that = this;
 		  var parent = utils.url_path_split(this.notebook_path)[0];
@@ -39,7 +39,7 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 		  }
 		  this.contents.copy(this.notebook_path, parent).then(
 			function (data) {
-			  console.log("Notebook copied");
+			  console.log("Notebook saved");
 			},
 			function(error) {
 			  that.events.trigger('notebook_copy_failed', error);
@@ -74,8 +74,6 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 		var dialogContent =
 	      	'<p>By exporting this view, all the cell contents that are not shown will be deleted.</p>' +
 	      	'<p>A copy of the full notebook is made in the background</p>';
-		
-		notebook.safe_copy_notebook();
 		
 		//Provide the opportunity to set a different name?
 		var dialogOptions = {
@@ -123,10 +121,12 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 }
 
 function exportCodeViewCallback() {
+	    notebook.safe_copy_notebook();
 		saveView("code_view", "code_view_export");
 }
 
 function exportTextViewCallback() {
+	    notebook.safe_copy_notebook();
 		saveView("text_view", "text_view_export");
 }
 
