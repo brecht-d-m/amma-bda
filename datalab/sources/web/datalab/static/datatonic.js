@@ -89,12 +89,11 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 			}
 		};
 		dialog.modal(dialogOptions);
-
-		//saveView(notebook_view, "Test");
 	});
 
 	function saveView(notebook_view, view_name) {
 		console.log("Initiating Saviour protocol");
+		notebook.safe_copy_notebook();
 		//Need to make deep copy here
 		// Remove all html
 		if(notebook_view == "code_view") {
@@ -120,13 +119,11 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
     });
 }
 
-function exportCodeViewCallback() {
-	    notebook.safe_copy_notebook();
+function exportCodeViewCallback() {	    
 		saveView("code_view", "code_view_export");
 }
 
 function exportTextViewCallback() {
-	    notebook.safe_copy_notebook();
 		saveView("text_view", "text_view_export");
 }
 
