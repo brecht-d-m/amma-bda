@@ -90,6 +90,14 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 		};
 		dialog.modal(dialogOptions);
 	});
+	
+	function exportCodeViewCallback() {	    
+		saveView("code_view", "code_view_export");
+	}
+
+	function exportTextViewCallback() {
+		saveView("text_view", "text_view_export");
+	}
 
 	function saveView(notebook_view, view_name) {
 		console.log("Initiating Saviour protocol");
@@ -117,14 +125,6 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 	events.on('notebook_loaded.Notebook', function() {
       switchInitialView();
     });
-}
-
-function exportCodeViewCallback() {	    
-		saveView("code_view", "code_view_export");
-}
-
-function exportTextViewCallback() {
-		saveView("text_view", "text_view_export");
 }
 
 function updateNBLinks(nbView) {
