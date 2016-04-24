@@ -27,6 +27,29 @@ function initializeDatatonicTree(ipy, notebookList, newNotebook, events, dialog,
 }
 
 function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
+	require(['notebook/js/notebook'], function(ipy) {
+		var notebook = ipy.Notebook;
+
+		// A replacement notebook copy function that makes copies in the root if
+		// the source is under datalab/.
+		notebook.prototype.safe_copy_notebook = function() {
+		  var that = this;
+		  var parent = utils.url_path_split(this.notebook_path)[0];
+		  if (parent.startsWith('datalab/')) {
+			parent = '';
+		  }
+		  this.contents.copy(this.notebook_path, parent).then(
+			function (data) {
+			  console.log("oKOKOKOKOK");
+			},
+			function(error) {
+			  that.events.trigger('notebook_copy_failed', error);
+			}
+		  );
+		};
+	});
+	
+	
 	// Datatonic
 	var notebook_view = "full";
 	 
@@ -51,8 +74,9 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 	
 		var dialogContent =
 	      	'<p>By exporting this view, all the cell contents that are not shown will be deleted.</p>' +
-	      	'<p>We strongly advise to make a copy of your notebook first!</p>' +
-		    '<p>    (We are not yet able to make the copy ourselves)</p>';
+	      	'<p>A copy of the full notebook is made in the background</p>';
+		
+		notebook.safe_copy_notebook();
 		
 		//Provide the opportunity to set a different name?
 		var dialogOptions = {
