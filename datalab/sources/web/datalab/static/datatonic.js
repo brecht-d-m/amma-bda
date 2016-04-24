@@ -30,8 +30,7 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 	require(['notebook/js/notebook'], function(ipy) {
 		var notebook = ipy.Notebook;
 
-		// A replacement notebook copy function that makes copies in the root if
-		// the source is under datalab/.
+		// A replacement notebook (safe) copy function
 		notebook.prototype.safe_copy_notebook = function() {
 		  var that = this;
 		  var parent = utils.url_path_split(this.notebook_path)[0];
@@ -40,7 +39,7 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 		  }
 		  this.contents.copy(this.notebook_path, parent).then(
 			function (data) {
-			  console.log("oKOKOKOKOK");
+			  console.log("Notebook copied");
 			},
 			function(error) {
 			  that.events.trigger('notebook_copy_failed', error);
