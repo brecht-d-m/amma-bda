@@ -65,6 +65,7 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 				'Text view': {
 				  click: exportTextViewCallback
 				}
+			}
 		};
 		dialog.modal(dialogOptions);
 
