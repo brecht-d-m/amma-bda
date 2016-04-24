@@ -46,6 +46,19 @@ declare module common {
     configUrl: string;
     feedbackId: string;
     logEndpoint: string;
+	  
+	/**
+	 * Datatonic variables
+	 */
+	headerBackgroundColor: string;
+	headerColor: string;
+	headerFont: string;
+	headerCompanyName: string;
+	headerCompanyLink: string;
+	headerCompanyLogo: string;
+	headerCompanyLogoAlt: string;
+	headerCompanyLogoWidth: string;
+	headerCompanyLogoHeight: string;
 
     /**
      * The port that the server should listen to.
