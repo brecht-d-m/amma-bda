@@ -733,6 +733,7 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
     });
 
     updateNavigation();
+	showNavigation();
   });
   events.on('open_with_text.Pager', function(e, payload) {
     var help = payload.data['text/html'];
