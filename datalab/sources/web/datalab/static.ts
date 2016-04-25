@@ -23,7 +23,7 @@ import path = require('path');
 import url = require('url');
 
 var JUPYTER_DIR = '/usr/local/lib/python2.7/dist-packages/notebook';
-var IPYWIDGETS_DIR = '/usr/local/lib/python2.7/site-packages/ipywidgets/static';
+var IPYWIDGETS_DIR = '/usr/local/lib/python2.7/dist-packages/ipywidgets/static';
 var NBEXTENSIONS_DIR = '/root/.local/share/jupyter/nbextensions/';
 var CONTENT_TYPES: common.Map<string> = {
   '.js': 'text/javascript',
