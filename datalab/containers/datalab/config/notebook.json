@@ -1,0 +1,8 @@
+{
+  "load_extensions": {
+    "usability/codefolding/main": true,
+    "usability/collapsible_headings/main": true,
+    "widgetsnbextension": true, 
+    "ipywidgets": true 
+  }
+}

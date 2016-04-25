@@ -322,12 +322,19 @@ div.status div.progress {
   margin-bottom: 4px
 }
 
-div.prompt, div.output_prompt, div.out_prompt_overlay {
+ div.prompt, div.output_prompt, div.out_prompt_overlay {
   min-width: 0px;
   display: none;
   padding: 0px;
   border: none;
 }
+
+/*div.widget-area > div.prompt {
+	min-width: 17px;
+	display: flex;
+	padding: 0.4em;
+}*/
+
 div.input_prompt {
   min-width: 30px;
 }
@@ -448,4 +455,8 @@ code {
 	opacity: 1;
 	filter: alpha(opacity=100);
 	z-index: 10;
+}
+
+div.text_cell > div.prompt {
+  display: block;
 }

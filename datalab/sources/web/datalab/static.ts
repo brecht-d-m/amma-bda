@@ -24,6 +24,7 @@ import url = require('url');
 
 var JUPYTER_DIR = '/usr/local/lib/python2.7/dist-packages/notebook';
 var IPYWIDGETS_DIR = '/usr/local/lib/python2.7/site-packages/ipywidgets/static';
+var NBEXTENSIONS_DIR = '/root/.local/share/jupyter/nbextensions/';
 var CONTENT_TYPES: common.Map<string> = {
   '.js': 'text/javascript',
   '.css': 'text/css',
@@ -103,12 +104,23 @@ function sendJupyterFile(relativePath: string, response: http.ServerResponse) {
   });
 }
 
+function sendNbExtensionsFile(relativePath: string, response: http.ServerResponse) {
+    var filePath = path.join(NBEXTENSIONS_DIR, relativePath);
+    fs.stat(filePath, function (e, stats) {
+        if (e || !stats.isFile()) {
+            response.writeHead(404);
+            response.end();
+        }
+        sendFile(filePath, response);
+    });
+}
+
 /**
  * Sends a static file located within the IPYWidgets install.
  * @param filePath the relative file path of the static file within the IPYWidgets directory to send.
  * @param response the out-going response associated with the current HTTP request.
  */
-function sendIPYWidgetsFile(relativePath: string, response: http.ServerResponse) {
+function sendIPyWidgetsFile(relativePath: string, response: http.ServerResponse) {
     var filePath = path.join(IPYWIDGETS_DIR, relativePath);
     fs.stat(filePath, function (e, stats) {
         if (e || !stats.isFile()) {
@@ -187,9 +199,14 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
     sendDataLabFile(path.substr(8), response);
   } 
   else if (path.indexOf('/nbextensions/') == 0) {
-    // Strip off the leading slash to turn path into a relative file path
-    sendIPYWidgetsFile(path.substr(22), response);
-  }	
+        // Strip off the leading slash to turn path into a relative file path
+		if (path.indexOf('/nbextensions/widgets/') == 0) {
+			sendIPyWidgetsFile(path.substr(22), response);
+		} else {
+			sendNbExtensionsFile(path.substr(14), response);
+		}
+        
+    }	
   else {
     // Strip off the leading slash to turn path into a relative file path
     sendJupyterFile(path.substr(1), response);
