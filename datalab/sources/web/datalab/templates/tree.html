@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Google Cloud DataLab</title>
+  <title>Google Cloud DataLab - <%headerCompanyName%></title>
   <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -26,9 +26,11 @@
   data-user-id="<%userId%>">
 
   <div id="app">
-    <div id="appBar">
+    <div id="appBar" style="background-color: <%headerBackgroundColor%>; color: <%headerColor%>; font: <%headerFont%>">
       <span id="logo" class="nav navbar-brand pull-left">
-        <a href="/tree"><img src="/static/logo.png" alt="Google Cloud DataLab" />Datatonic</a>
+		<a id="logo" href="<%headerCompanyLink%>" target="_blank">
+          <img src="<%headerCompanyLogo%>" alt="<%headerCompanyLogoAlt>" height="<%headerCompanyLogoHeight%>" width="<%headerCompanyWidth%>">
+        </a>
       </span>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
@@ -123,6 +125,28 @@
                           <li><a href="/tree"><i class="fa fa-home"></i></a></li>
                         </ul>
                       </div>
+                      <!--<select class="pull-right btn btn-mini">
+                        <option>Full view</option>
+                        <option>Text view</option>
+                        <option>Code view</option>
+                      </select>-->
+                      <div class="pull-right">
+                        <div class="btn-group btn-mini">
+                          <button id="viewChoser" class="btn btn-default">
+                            Chose view (full view)
+                          </button>
+                          <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu pull-right">
+                            <li><a id="choseFullView" href="#">Full view</a></li>
+                            <li><a id="choseCodeView" href="#">Code view</a></li>
+                            <li><a id="choseTextView" href="#">Text view</a></li>
+                            <li><a id="choseTextOutputView" href="#">Text view with code output</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
                     </div>
                   </div>
                 </div>
@@ -144,6 +168,9 @@
         </div>
       </div>
     </div>
+	<div id="footer" style="background-color: <%headerBackgroundColor%>; color: <%headerColor%>; font: <%headerFont%>"">
+	  <p class="text-muted">Made with &hearts; for <a href="<%headerCompanyLink%>" target="_blank"><%headerCompanyName%></a></p>
+	</div>
   </div>
   <script src="/static/components/es6-promise/promise.min.js"></script>
   <script src="/static/components/requirejs/require.js"></script>

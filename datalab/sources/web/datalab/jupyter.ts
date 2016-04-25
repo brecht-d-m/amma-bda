@@ -284,7 +284,18 @@ function responseHandler(proxyResponse: http.ClientResponse,
       instanceName: appSettings.instanceName,
       userId: userManager.getUserId(request),
       configUrl: appSettings.configUrl,
-      baseUrl: '/'
+      baseUrl: '/',
+		
+	  // Datatonic
+	  headerColor: appSettings.headerColor,
+	  headerBackgroundColor: appSettings.headerBackgroundColor,
+	  headerFont: appSettings.headerFont,
+	  headerCompanyName: appSettings.headerCompanyName,
+	  headerCompanyLink: appSettings.headerCompanyLink,
+	  headerCompanyLogo: appSettings.headerCompanyLogo,
+	  headerCompanyLogoAlt: appSettings.headerCompanyLogoAlt,
+	  headerCompanyLogoHeight: appSettings.headerCompanyLogoHeight,
+	  headerCompanyLogoWidth: appSettings.headerCompanyLogoWidth
     };
 
     var page: string = null;

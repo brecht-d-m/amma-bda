@@ -13,6 +13,7 @@
  */
 
 var debug = {
+  checkVersionNumber: false,
   enabled: true,
   log: function() { console.log.apply(console, arguments); }
 };
@@ -373,7 +374,7 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
           }
         }
       }
-      originalExecute.apply(this, [ code, callbacks, options ]);
+      return originalExecute.apply(this, [ code, callbacks, options ]);
     }
   });
 
@@ -732,6 +733,7 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
     });
 
     updateNavigation();
+	showNavigation();
   });
   events.on('open_with_text.Pager', function(e, payload) {
     var help = payload.data['text/html'];
@@ -868,7 +870,9 @@ function initializeNotebookList(ipy, notebookList, newNotebook, events, dialog, 
     messageDiv.style.display = 'block';
   }
 
-  checkVersion(window.datalab.versions);
+  if(debug.checkVersionNumber) {
+    checkVersion(window.datalab.versions);
+  }
 
 }
 
@@ -886,9 +890,12 @@ function initializeDataLab(ipy, events, dialog, utils, security) {
   var pageClass = document.body.className;
   if (pageClass.indexOf('notebook_app') >= 0) {
     initializeNotebookApplication(ipy, ipy.notebook, events, dialog, utils);
+	initializeDatatonicNB(ipy, ipy.notebook, events, dialog, utils);
+	
   }
   else if (pageClass.indexOf('notebook_list') >= 0) {
     initializeNotebookList(ipy, ipy.notebook_list, ipy.new_notebook_widget, events, dialog, utils);
+	initializeDatatonicTree(ipy, ipy.notebook_list, ipy.new_notebook_widget, events, dialog, utils);
   }
 }
 
