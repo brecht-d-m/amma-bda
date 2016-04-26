@@ -11,3 +11,14 @@ The project assignment can be found in [this](https://drive.google.com/file/d/0B
 * Brecht De Meulenaere
 * Samuel Huylebroeck
 * Bart Middag
+
+## Extension Datalab
+Google Cloud Datalab is extended with different features:
+* Different types of views: full view, code view, text view, text with output view
+* Export of the code view and text view (the new notebook and old notebook are both saved)
+* Opening of a notebook in a specific view
+* Different notebook extensions: IPyWidgets, Collapsible Headings, and Codefolding ([nbextensions](https://github.com/ipython-contrib/IPython-notebook-extensions)). Other nbextensions can be added more easily.
+  - The IPyWidgets allow (together with the "text with output view") to make a dashboard view
+  - Collapsible headings: sections of the notebook can be easily hided
+  - Codefolding: code sections can be collapsed
+* Easy customization of header and footer (background color - text color and font - company name, logo and url)
