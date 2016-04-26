@@ -19,7 +19,7 @@ We have uploaded a video of the product where we show some of the features of th
 [![YouTubeLink](https://i.ytimg.com/vi/oICdHkth6FU/sddefault.jpg)](https://youtu.be/oICdHkth6FU)
 
 ### Docker image
-We have uploaded a Docker image: [Docker image](https://hub.docker.com/r/bredmeul/datalab/). To run the demo, please follow the instruction on the [GitHub page](https://github.com/googlecloudplatform/datalab/wiki/Development-Environment) of Google Datalab.
+We have uploaded a Docker image: [Docker image](https://hub.docker.com/r/bredmeul/datalab/). To run the demo, please follow the instruction on the [GitHub page](https://github.com/googlecloudplatform/datalab/wiki/Build-and-Run#running) of Google Datalab.
 
 ### New Features
 Google Cloud Datalab is extended with different features:
