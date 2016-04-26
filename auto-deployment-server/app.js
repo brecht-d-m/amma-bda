@@ -8,6 +8,16 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 
 var app = express();
+var io = require('socket.io')();
+app.io = io;
+
+retriever = require('./bin/notebook_retriever.js');
+
+io.on('connection', function (socket) {
+  socket.on('getnotebooks', function () {
+      retriever.send_notebooks("http://localhost:8081/api/contents/", socket);
+  });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,6 +65,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log(err.message)
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

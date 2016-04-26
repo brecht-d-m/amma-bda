@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'AMMA - Project Big Data' });
 });
 
+
 /* POST init gcloud page. */
 router.post('/init-gcloud', function(req, res) {
 	console.log(req.body.googleCloudProject);

@@ -1,3 +1,10 @@
+var socket = io.connect('http://localhost:3000');
+
+socket.on('notebook', function (data) {
+	// TODO: add notebooks here to a table or something
+	console.log(data);
+})
+
 function bootFunc() {
 	googleProjectId = $("#google-cloud-project-id-input").val();
 	// Create data post request
@@ -15,14 +22,14 @@ function bootFunc() {
 	});
 }
 
-function retrieveFunc(){
-	$.get("/notebooks");
+function getNotebooks() {
+	socket.emit('getnotebooks');
 }
 
 $(document).ready(function() {
 		//urlExists();
 	$("#google-cloud-project-id-submit").bind("click", bootFunc);
-	$("#retrieve-notebooks").bind("click", retrieveFunc);
+	$("#retrieve-notebooks").bind("click", getNotebooks);
 });
 
 function urlExists(){
