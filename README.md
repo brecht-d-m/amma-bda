@@ -13,10 +13,15 @@ The project assignment can be found in [this](https://drive.google.com/file/d/0B
 * Bart Middag
 
 ## Extension Datalab
-To see a demo of the product, click on the image below:
+### Demo
+We have uploaded a video of the product where we show some of the features of the project. Click on the image below to go to the video. 
 
 [![YouTubeLink](https://i.ytimg.com/vi/oICdHkth6FU/sddefault.jpg)](https://youtu.be/oICdHkth6FU)
 
+### Docker image
+We have uploaded a Docker image: [Docker image](https://hub.docker.com/r/bredmeul/datalab/)
+
+### New Features
 Google Cloud Datalab is extended with different features:
 * Different types of views: full view, code view, text view, text with output view
 * Export of the code view and text view (the new notebook and old notebook are both saved)
