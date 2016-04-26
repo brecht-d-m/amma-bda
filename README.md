@@ -13,6 +13,10 @@ The project assignment can be found in [this](https://drive.google.com/file/d/0B
 * Bart Middag
 
 ## Extension Datalab
+To see a demo of the product, click on the image below:
+
+[![YouTubeLink](https://i.ytimg.com/vi/oICdHkth6FU/sddefault.jpg)](https://youtu.be/oICdHkth6FU)
+
 Google Cloud Datalab is extended with different features:
 * Different types of views: full view, code view, text view, text with output view
 * Export of the code view and text view (the new notebook and old notebook are both saved)
