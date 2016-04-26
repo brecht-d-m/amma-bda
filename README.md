@@ -27,7 +27,7 @@ Google Cloud Datalab is extended with different features:
 * Export of the code view and text view (the new notebook and old notebook are both saved)
 * Opening of a notebook in a specific view
 * Different notebook extensions: IPyWidgets, Collapsible Headings, and Codefolding ([nbextensions](https://github.com/ipython-contrib/IPython-notebook-extensions)). Other nbextensions can be added more easily.
-  - The IPyWidgets allow (together with the "text with output view") to make a dashboard view
+  - The IPyWidgets allow (together with the "text with output view") to make a dashboard view ([StackOverflow](stackoverflow.com/questions/36404809/execute-ipywidgets-in-google-cloud-datalab/36806675#36806675))
   - Collapsible headings: sections of the notebook can be easily hided
   - Codefolding: code sections can be collapsed
 * Easy customization of header and footer (background color - text color and font - company name, logo and url)
