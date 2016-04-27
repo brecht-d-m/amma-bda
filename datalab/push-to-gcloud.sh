@@ -15,8 +15,10 @@ export PATH=$PATH:$REPO_DIR/tools
 alias pylint='pylint --rcfile=$REPO_DIR/tools/pylint.rc'
 
 
-source $REPO_DIR/sources/build.sh
+$REPO_DIR/sources/build.sh
 
 cd $REPO_DIR/containers/datalab
 $REPO_DIR/containers/datalab/build.sh
-$REPO_DIR/containers/datalab/run.sh
+$REPO_DIR/containers/datalab/stage-gcloud.sh
+#https://cloud-datalab-deploy.appspot.com?container=gcr.io/$PROJECT_ID/datalab:$USER_$TAG
+#$REPO_DIR/containers/datalab/run.sh

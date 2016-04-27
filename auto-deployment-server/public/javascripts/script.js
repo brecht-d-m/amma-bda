@@ -20,14 +20,14 @@ socket.on('status', function (data) {
 	}
 })
 
-function bootFunc() {
-	googleProjectId = $("#google-cloud-project-id-input").val();
+var runLocalFunc = function() {
+	googleProjectId = $("#gcloud-id-input").val();
 	// Create data post request
 	googleProjectData = new Object();
 	googleProjectData.googleCloudProject = googleProjectId;
 
 	// Send post request
-	$.post("/init-gcloud", googleProjectData, function (data, status) {
+	$.post("/run-local", googleProjectData, function(data, status) {
 		console.log("DATA: " + data);
 
 		window.open(
@@ -35,7 +35,24 @@ function bootFunc() {
 			'_blank'
 		);
 	});
-}
+};
+
+var runGCloudFunc = function() {
+	googleProjectId = $("#gcloud-id-input").val();
+	// Create data post request
+	googleProjectData = new Object();
+	googleProjectData.googleCloudProject = googleProjectId;
+
+	// Send post request
+	$.post("/run-gcloud", googleProjectData, function(data, status) {
+		console.log("DATA: " + data);
+
+		window.open(
+			'https://cloud-datalab-deploy.appspot.com?container=gcr.io/cloud_datalab/datalab:amma',
+			'_blank'
+		);
+	});
+};
 
 function getNotebooks() {
 	socket.emit('getnotebooks');
@@ -43,7 +60,8 @@ function getNotebooks() {
 
 $(document).ready(function() {
 		//urlExists();
-	$("#google-cloud-project-id-submit").bind("click", bootFunc);
+	$("#run-local-submit").bind("click", runLocalFunc);
+	$("#run-gcloud-submit").bind("click", runGCloudFunc);
 	$("#retrieve-notebooks").bind("click", getNotebooks);
 	socket.emit('getstatus');
 	setInterval(function(){ socket.emit('getstatus') }, 5000);

@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require("body-parser");
 var sys = require('sys')
+var fs = require('fs');
 var exec = require('child_process').exec;
 var child;
 var router = express.Router();
@@ -10,43 +11,74 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'AMMA - Project Big Data' });
 });
 
-
 /* POST init gcloud page. */
-router.post('/init-gcloud', function(req, res) {
+router.post('/run-local', function(req, res) {
 	console.log(req.body.googleCloudProject);
-	projectId = req.body.googleCloudProject
+	projectId = req.body.googleCloudProject;
+    loc = 'local';
+
+	// executes "gcloud auth init"
+	child = exec("gcloud auth login", function (error, stdout, stderr) {
+		sys.print('stdout: ' + stdout);
+		sys.print('stderr: ' + stderr);
+		if (error == null) {
+			execSetProject(projectId, res, loc);
+		}
+	});
+});
+
+router.post('/run-gcloud', function(req, res) {
+	console.log(req.body.googleCloudProject);
+	projectId = req.body.googleCloudProject;
+    loc = 'gcloud';
 
 	// executes "gcloud auth init"
 	child = exec("gcloud auth login", function (error, stdout, stderr) {
 		sys.print('stdout: ' + stdout);
   		sys.print('stderr: ' + stderr);
   		if (error == null) {
-    		execSetProject(projectId, res);
-  		}
+    		execSetProject(projectId, res, loc);
+  		} else {
+			console.log("Error: authentication failed.");
+		}
 	});
 });
 
-var execSetProject = function(projectId, res) {
+var execSetProject = function(projectId, res, loc) {
 	// executes "gcloud config set project"
 	child = exec("gcloud config set project " + projectId, function (error, stdout, stderr) {
 		sys.print('stdout: ' + stdout);
   		sys.print('stderr: ' + stderr);
   		if (error == null) {
-			startProject(res);
-  		}
+			startProject(res, loc);
+  		} else {
+			console.log("Error: setting project failed.");
+		}
 	});
 };
 
-var startProject = function(res) {
-	child = exec("/usr/share/datalab/start-amma-bda.sh", function (error, stdout, stderr) {
-		sys.print('stdout: ' + stdout);
-  		sys.print('stderr: ' + stderr);
-  		if (error == null) {
-			res.send("POST request succeeded");
-  		} else {
-			console.log("ERROR");
-		}
-	});
+var startProject = function(res, loc) {
+    if(loc == 'local') {
+        child = exec("/usr/share/datalab/start-amma-bda.sh", function (error, stdout, stderr) {
+            sys.print('stdout: ' + stdout);
+            sys.print('stderr: ' + stderr);
+            if (error == null) {
+                res.send("POST request succeeded");
+            } else {
+                console.log("ERROR");
+            }
+        });
+    } else if(loc == 'gcloud') {
+        child = exec("/usr/share/datalab/start-amma-bda-gcloud.sh", function (error, stdout, stderr) {
+            sys.print('stdout: ' + stdout);
+            sys.print('stderr: ' + stderr);
+            if (error == null) {
+                res.send("POST request succeeded");
+            } else {
+                console.log("ERROR");
+            }
+        });
+    }
 };
 
 module.exports = router;
