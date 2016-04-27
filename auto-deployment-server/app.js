@@ -15,7 +15,7 @@ retriever = require('./bin/notebook_retriever.js');
 
 io.on('connection', function (socket) {
   socket.on('getnotebooks', function () {
-      retriever.send_notebooks("http://localhost:8081/api/contents/", socket);
+      retriever.send_notebooks("http://localhost:8081/", socket);
   });
 });
 

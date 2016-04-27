@@ -3,6 +3,12 @@ var socket = io.connect('http://localhost:3000');
 socket.on('notebook', function (data) {
 	// TODO: add notebooks here to a table or something
 	console.log(data);
+	var li = document.createElement("li");
+	var link = document.createElement("a")
+	link.innerHTML = data.name;
+	link.setAttribute("href", data.path);
+	li.appendChild(link)
+	document.getElementById("notebooklist").appendChild(li);
 })
 
 function bootFunc() {

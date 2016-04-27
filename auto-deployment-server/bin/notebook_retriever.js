@@ -6,12 +6,12 @@ module.exports = {
 var request = require('request');
 
 function recursiveParse(url, path, socket) {
-    request(url + path, function(error, response, body) {
+    request(url + "api/contents/" + path, function(error, response, body) {
         parsed = JSON.parse(body).content;
         for (var i = 0; i < parsed.length; i++) {
             if (parsed[i].type == 'notebook') {
                 // TODO: can add more info about notebook here
-                socket.emit('notebook', { notebook: parsed[i].name });
+                socket.emit('notebook', { name: parsed[i].name, path: url + "notebooks/" + parsed[i].path });
             }
             if (parsed[i].type == 'directory') {
                 recursiveParse(url, parsed[i].path, socket);
@@ -20,7 +20,7 @@ function recursiveParse(url, path, socket) {
     });
 }
 
-// TODO: this is code that demonstrates google apis authentication 
+// TODO: this is code that demonstrates google apis authentication
 /*	google.auth.getApplicationDefault(function(err, authClient) {
  if (err) {
  res.send('Failed to get the default credentials: ' + String(err));
