@@ -18,6 +18,7 @@
 # Fail the build on the first error, instead of carrying on by default
 set -o errexit;
 
+export REPO_DIR=/usr/share/datalab
 if [ -z "$REPO_DIR" ];
   then echo "REPO_DIR is not set. Please run source tools/initenv.sh first";
   exit 1;
