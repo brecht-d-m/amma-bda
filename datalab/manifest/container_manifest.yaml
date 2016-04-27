@@ -6,7 +6,6 @@ spec:
   containers:
     - name: datalab
       image: gcr.io/propane-bearing-124123/datalab:amma_bda
-      command: ['/datalab/run-cloud.sh']
       imagePullPolicy: Always
       env:
         - name: DATALAB_PROJECT_NUM
