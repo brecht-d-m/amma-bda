@@ -4,10 +4,35 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var routes = require('./routes/index');
 
 var app = express();
+var io = require('socket.io')();
+app.io = io;
+var datalab_status;
+
+io.on('connection', function (socket) {
+  socket.emit('status', {status: datalab_status});
+  socket.on('getnotebooks', function () {
+    retriever.send_notebooks(datalaburl, socket);
+  });
+});
+
+retriever = require('./bin/notebook_retriever.js');
+var request = require('request');
+var datalaburl = "http://localhost:8081/";
+
+setInterval( function(){
+  request(datalaburl + "_ah/health", function(error, response, body) {
+    if(error == null){
+      datalab_status = response.body;
+    } else {
+      datalab_status = "down";
+    }
+  });
+  io.sockets.emit("status", {status: datalab_status})
+}, 5000);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,6 +80,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log(err.message)
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

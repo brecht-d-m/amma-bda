@@ -64,9 +64,13 @@ RUN pip install -U \
     pip install -U seaborn==0.6.0 && \
     pip install -U notebook==4.0.2 && \
     pip install -U PyYAML==3.11 && \
-	pip install ipywidgets && \
     easy_install pip && \
     find /usr/local/lib/python2.7 -type d -name tests | xargs rm -rf
+
+#RUN pip install jupyter
+RUN mkdir -p /root/.local/share/jupyter && \
+    pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user
+RUN pip install -U ipywidgets==4.1.1
 
 # Setup Workspace-Sync
 RUN mkdir -p /wsync && \
@@ -75,7 +79,7 @@ RUN mkdir -p /wsync && \
     chmod u+r,g+x /wsync/* && cd /
 
 # Container configuration
-EXPOSE 8080
+EXPOSE 8080 8888
 VOLUME [ "/var/log/app_engine", "/nb", "/root/.config/gcloud" ]
 
 # Path configuration
@@ -83,8 +87,8 @@ ENV PATH $PATH:/tools/node/bin:/tools/google-cloud-sdk/bin
 ENV PYTHONPATH /env/python
 
 # IPython configuration
-RUN ipython profile create default
-RUN jupyter notebook --generate-config
+#RUN ipython profile create default
+#RUN jupyter notebook --generate-config
 
 # Add some unchanging bits - specifically node modules (that need to be kept in sync
 # with packages.json manually, but help save build time, by preincluding them in an
@@ -103,12 +107,18 @@ RUN mkdir -p /datalab/web && \
     cd / && \
     /tools/node/bin/npm install -g forever
 
-# Install TensorFlow. 
+# Install TensorFlow.
 # Need to install protobuf first due to a TF bug https://github.com/tensorflow/tensorflow/issues/487
-RUN pip install protobuf==3.0.0a3
-RUN gsutil cp gs://cloud-datalab/deploy/tensorflow-0.6.0-cp27-none-linux_x86_64.whl /tmp/tensorflow-0.6.0-cp27-none-linux_x86_64.whl && \
-  pip install /tmp/tensorflow-0.6.0-cp27-none-linux_x86_64.whl && \
-  rm /tmp/tensorflow-0.6.0-cp27-none-linux_x86_64.whl
+#RUN pip install protobuf==3.0.0a3
+#RUN gsutil cp gs://cloud-datalab/deploy/tensorflow-0.6.0-cp27-none-linux_x86_64.whl /tmp/tensorflow-0.6.0-cp27-none-linux_x86_64.whl && \
+#  pip install /tmp/tensorflow-0.6.0-cp27-none-linux_x86_64.whl && \
+#  rm /tmp/tensorflow-0.6.0-cp27-none-linux_x86_64.whl
+
+# Install ProtoBuf, TensorFlow, DataFlow
+RUN pip install protobuf==3.0.0b2.post2 && \
+    wget https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl && \
+    pip install tensorflow-0.7.1-cp27-none-linux_x86_64.whl && \
+    rm tensorflow-0.7.1-cp27-none-linux_x86_64.whl
 
 # Add build artifacts
 ADD build/lib/GCPData-0.1.0.tar.gz /datalab/lib/
@@ -119,6 +129,7 @@ ADD nbconvert /datalab/nbconvert
 ADD content/ /datalab
 ADD config/ipython.py /root/.ipython/profile_default/ipython_config.py
 ADD config/nbconvert.py /root/.jupyter/jupyter_notebook_config.py
+ADD config/notebook.json /root/.jupyter/nbconfig/notebook.json
 
 # Install build artifacts
 RUN cd /datalab/lib/GCPData-0.1.0 && python setup.py install && \
