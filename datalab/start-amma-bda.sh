@@ -15,7 +15,7 @@ export PATH=$PATH:$REPO_DIR/tools
 alias pylint='pylint --rcfile=$REPO_DIR/tools/pylint.rc'
 
 
-source $REPO_DIR/sources/build.sh
+$REPO_DIR/sources/build.sh
 
 cd $REPO_DIR/containers/datalab
 $REPO_DIR/containers/datalab/build.sh
