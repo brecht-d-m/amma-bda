@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 router.post('/run-local', function(req, res) {
 	console.log(req.body.googleCloudProject);
 	projectId = req.body.googleCloudProject;
-    loc = "local";
+    loc = 'local';
 
 	// executes "gcloud auth init"
 	child = exec("gcloud auth login", function (error, stdout, stderr) {
@@ -30,7 +30,7 @@ router.post('/run-local', function(req, res) {
 router.post('/run-gcloud', function(req, res) {
 	console.log(req.body.googleCloudProject);
 	projectId = req.body.googleCloudProject;
-    loc = "gcloud";
+    loc = 'gcloud';
 
 	// executes "gcloud auth init"
 	child = exec("gcloud auth login", function (error, stdout, stderr) {
@@ -38,7 +38,9 @@ router.post('/run-gcloud', function(req, res) {
   		sys.print('stderr: ' + stderr);
   		if (error == null) {
     		execSetProject(projectId, res, loc);
-  		}
+  		} else {
+			console.log("Error: authentication failed.");
+		}
 	});
 });
 
@@ -49,13 +51,15 @@ var execSetProject = function(projectId, res, loc) {
   		sys.print('stderr: ' + stderr);
   		if (error == null) {
 			startProject(res, loc);
-  		}
+  		} else {
+			console.log("Error: setting project failed.");
+		}
 	});
 };
 
 var startProject = function(res, loc) {
     if(loc == 'local') {
-        child = exec("source /usr/share/datalab/start-amma-bda.sh", function (error, stdout, stderr) {
+        child = exec("/usr/share/datalab/start-amma-bda.sh", function (error, stdout, stderr) {
             sys.print('stdout: ' + stdout);
             sys.print('stderr: ' + stderr);
             if (error == null) {
@@ -65,7 +69,7 @@ var startProject = function(res, loc) {
             }
         });
     } else if(loc == 'gcloud') {
-        child = exec("source /usr/share/datalab/start-amma-bda-gcloud.sh", function (error, stdout, stderr) {
+        child = exec("/usr/share/datalab/start-amma-bda-gcloud.sh", function (error, stdout, stderr) {
             sys.print('stdout: ' + stdout);
             sys.print('stderr: ' + stderr);
             if (error == null) {

@@ -9,7 +9,7 @@ var routes = require('./routes/index');
 var app = express();
 var io = require('socket.io')();
 app.io = io;
-var datalab_status;
+var datalab_status = "Polling...";
 
 io.on('connection', function (socket) {
   socket.emit('status', {status: datalab_status});
@@ -32,7 +32,6 @@ setInterval( function(){
   });
   io.sockets.emit("status", {status: datalab_status})
 }, 5000);
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

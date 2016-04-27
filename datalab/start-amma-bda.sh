@@ -18,5 +18,5 @@ alias pylint='pylint --rcfile=$REPO_DIR/tools/pylint.rc'
 source $REPO_DIR/sources/build.sh
 
 cd $REPO_DIR/containers/datalab
-source $REPO_DIR/containers/datalab/build.sh
-source $REPO_DIR/containers/datalab/run.sh
+$REPO_DIR/containers/datalab/build.sh
+$REPO_DIR/containers/datalab/run.sh
