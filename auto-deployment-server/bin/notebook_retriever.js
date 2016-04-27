@@ -7,6 +7,7 @@ var request = require('request');
 
 function recursiveParse(url, path, socket) {
     request(url + "api/contents/" + path, function(error, response, body) {
+        if(body == undefined) return;
         parsed = JSON.parse(body).content;
         for (var i = 0; i < parsed.length; i++) {
             if (parsed[i].type == 'notebook') {

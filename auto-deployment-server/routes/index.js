@@ -14,7 +14,6 @@ router.get('/', function(req, res, next) {
 /* POST init gcloud page. */
 router.post('/init-gcloud', function(req, res) {
 	console.log(req.body.googleCloudProject);
-
 	projectId = req.body.googleCloudProject
 
 	// executes "gcloud auth init"
