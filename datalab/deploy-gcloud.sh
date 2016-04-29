@@ -18,4 +18,4 @@ PROJECT_ID=`gcloud -q config list --format yaml | grep project | awk -F" " '{pri
 TAG=amma-bda
 DOCKER_IMAGE="gcr.io/$PROJECT_ID/datalab:$TAG"
 echo 'Docker image: $DOCKER_IMAGE'
-gcloud preview app deploy dtapp/datalab.yaml --image-url $DOCKER_IMAGE --project $PROJECT_ID --version amma-bda
+gcloud preview app deploy deploy/app.yaml --image-url $DOCKER_IMAGE --project $PROJECT_ID --version amma-bda
