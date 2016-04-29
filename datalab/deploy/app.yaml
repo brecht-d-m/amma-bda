@@ -28,9 +28,14 @@ handlers:
   script: app.js
   login: optional
   secure: always
-- url: /.*
+- url: /command/.*
   script: app.js
   login: admin
+  auth_fail_action: redirect
+  secure: always
+- url: /.*
+  script: app.js
+  login: required
   auth_fail_action: redirect
   secure: always
 
