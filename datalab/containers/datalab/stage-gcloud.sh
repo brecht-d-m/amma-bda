@@ -15,7 +15,7 @@
 
 # Publishes the built docker image to the registry for testing purposes.
 
-TAG=amma_bda
+TAG=amma-bda
 
 # Grant read permissions to all users on all objects added in the GCS bucket
 # that holds docker image files by ACLing the bucket and setting the default

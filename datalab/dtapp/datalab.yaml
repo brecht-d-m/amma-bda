@@ -1,0 +1,20 @@
+runtime: custom
+vm: true
+module: datalab
+threadsafe: true
+network:
+  forwarded_ports:
+  - 8081
+  instance_tag: datatonic-datalab
+  name: datalab
+resources:
+  cpu: 1.0
+  memory_gb: 1.3
+  disk_size_gb: 100
+env_variables:
+  DATALAB_AUTH: 'true'
+handlers:
+- url: /.*
+  login: required
+  script: dynamic
+  auth_fail_action: redirect
