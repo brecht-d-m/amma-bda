@@ -324,7 +324,7 @@ function responseHandler(proxyResponse: http.ClientResponse,
     response.write = placeHolder;
     response.end = placeHolder;
 
-    analytics.logPage(page, path, request.headers['x-appengine-user-id']);
+    // analytics.logPage(page, path, request.headers['x-appengine-user-id']);
   }
 }
 
