@@ -13,9 +13,11 @@ socket.on('status', function (data) {
 	var label = document.getElementById("datalab-status");
 	if (data.status == "ok"){
 		label.innerText = "Running"
+		label.textContent = "Running"
 		label.className = "label label-success"
 	} else {
 		label.innerText = data.status
+		label.textContent = data.status
 		label.className = "label label-danger"
 	}
 })
