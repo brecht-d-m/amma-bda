@@ -236,6 +236,11 @@ function changeView(styleCode, styleInput, styleText) {
 	for (var idx = 0; idx < codeCells.length; idx++) {
 		codeCells[idx].style.display = styleInput;
 	}
+
+    var codeCells  = document.getElementsByClassName("output_wrapper");
+	for (var idx = 0; idx < codeCells.length; idx++) {
+		codeCells[idx].style.display = styleCode;
+	}
 	  
 	var textCells  = document.getElementsByClassName("text_cell");
 	for (var idx = 0; idx < textCells.length; idx++) {
