@@ -460,3 +460,12 @@ code {
 div.text_cell > div.prompt {
   display: block;
 }
+
+.fa-add-sm { 
+    margin: 40% 0px 0px 50%;
+}
+
+.fa-recycle-circle {
+    font-size:0.60em;
+    margin: 56% 0px 0px 50%;
+}

@@ -116,24 +116,48 @@
           <div class="btn-toolbar pull-right">
             <div class="btn-group">
               <button id="addCodeCellButton" type="button" class="btn" title="Append a new code cell">
-                <span class="fa fa-plus-square"></span> Add Code
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+  <i class="fa fa-plus-circle fa-stack-1x fa-add-sm"></i>
+</span>
               </button>
               <button id="addMarkdownCellButton" type="button" class="btn" title="Append a new markdown cell">
-                <span class="fa fa-plus-square"></span> Add Markdown
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-font fa-stack-1x fa-inverse"></i>
+  <i class="fa fa-plus-circle fa-stack-1x fa-add-sm"></i>
+</span>
               </button>
               <button id="deleteCellButton" type="button" class="btn" title="Delete the selected cell">
-                <span class="fa fa-minus-square"></span> Delete
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-cube fa-stack-1x fa-inverse"></i>
+  <i class="fa fa-minus-circle fa-stack-1x fa-add-sm"></i>
+</span>
               </button>
               <button id="moveCellUpButton" type="button" class="btn" title="Move the selected cell up">
-                <span class="fa fa-chevron-up"></span> Move Up
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-cube fa-stack-1x fa-inverse"></i>
+  <i class="fa fa-chevron-circle-down fa-stack-1x fa-add-sm"></i>
+</span>
               </button>
               <button id="moveCellDownButton" type="button" class="btn" title="Move the selected cell down">
-                <span class="fa fa-chevron-down"></span> Move Down
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-cube fa-stack-1x fa-inverse"></i>
+  <i class="fa fa-chevron-circle-up fa-stack-1x fa-add-sm"></i>
+</span>
               </button>
             </div>
             <div class="btn-group">
               <button id="runButton" type="button" class="btn" title="Run the selected cell">
-                <span class="fa fa-play"></span> Run
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-cube fa-stack-1x fa-inverse"></i>
+  <i class="fa fa-play-circle fa-stack-1x fa-add-sm"></i>
+</span>
               </button>
               <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
@@ -146,7 +170,14 @@
             </div>
             <div class="btn-group">
               <button id="clearButton" type="button" class="btn" title="Clear outputs of the selected cell">
-                <span class="fa fa-minus-square-o"></span> Clear
+                <span class="fa-stack">
+  <i class="fa fa-square fa-stack-2x"></i>
+  <i class="fa fa-cube fa-stack-1x fa-inverse"></i>
+  <span class="fa-stack fa-recycle-circle">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-recycle fa-stack-1x fa-inverse"></i>
+  </span>
+</span>
               </button>
               <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
