@@ -27,6 +27,9 @@ function initializeDatatonicTree(ipy, notebookList, newNotebook, events, dialog,
 }
 
 function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
+
+    $('head').append('<link rel="stylesheet" href="/static/components/jquery-ui/themes/smoothness/jquery-ui.min.css" type="text/css" />');
+
 	require(['notebook/js/notebook'], function(ipy) {
 		var notebook = ipy.Notebook;
 
@@ -254,3 +257,5 @@ function changeView(styleCode, styleInput, styleText) {
 
     console.log("done");
 }
+
+require(['components/jquery-ui/themes/smoothness'])
