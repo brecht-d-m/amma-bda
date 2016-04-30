@@ -82,7 +82,11 @@ export function loadSettings(): common.Settings {
     if (process.env['DATALAB_CONFIG_URL']) {
       settings.configUrl = process.env['DATALAB_CONFIG_URL'];
     }
-    settings.enableAuth = (env != 'local');
+    if (process.env['DATALAB_NO_AUTH']) {
+      settings.enableAuth = false;
+    } else {
+      settings.enableAuth = (env != 'local');
+    }
     return settings;
   }
   catch (e) {

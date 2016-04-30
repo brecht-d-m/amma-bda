@@ -68,6 +68,7 @@ function lookupUserFromStorage(userId: string, accessToken: string, cb: common.C
         if (e.message.length >= 3 && e.message.substr(e.message.length - 3) == '404') {
           // Most of times we cannot tell whether it is a transient error or the object not found,
           // because they both return 404. But we assume it is caused by the object not exist.
+          logging.getLogger().error(e, 'Storage object not found.');
           cb && cb(null, false);
         }
         else {

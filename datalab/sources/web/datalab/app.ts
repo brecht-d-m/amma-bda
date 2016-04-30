@@ -26,10 +26,10 @@ import server = require('./server');
 var appSettings = settings.loadSettings();
 if (appSettings != null) {
   logging.initializeLoggers(appSettings);
-  analytics.initialize(appSettings);
+  // analytics.initialize(appSettings);
 
   server.run(appSettings);
-  analytics.logStart();
+  // analytics.logStart();
 }
 
 

@@ -1,0 +1,44 @@
+module: datalab
+api_version: 1
+runtime: custom
+vm: true
+threadsafe: true
+
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1.00
+  memory_gb: 1.30
+  disk_size_gb: 100.00
+
+network:
+  name: datalab
+
+health_check:
+  enable_health_check: false
+  check_interval_sec: 5
+  timeout_sec: 4
+  unhealthy_threshold: 2
+  healthy_threshold: 2
+  restart_threshold: 36
+
+handlers:
+- url: /ping
+  script: app.js
+  login: optional
+  secure: always
+- url: /command/.*
+  script: app.js
+  login: admin
+  auth_fail_action: redirect
+  secure: always
+- url: /.*
+  script: app.js
+  login: required
+  auth_fail_action: redirect
+  secure: always
+
+env_variables:
+  DATALAB_ANALYTICS_ID: UA-54894152-3
+  DATALAB_CONFIG_URL: https://storage.googleapis.com/cloud-datalab/deploy/version_check.js
