@@ -175,12 +175,6 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
     sendDataLabFile('datalab.js', response);
   }
   else if (path.lastIndexOf('/datatonic.js') > 0) {
-    // NOTE: Uncomment to use external content mapped into the container.
-    //       This is only useful when actively developing the content itself.
-    // var text = fs.readFileSync('/sources/datalab/static/datalab.js', { encoding: 'utf8' });
-    // response.writeHead(200, { 'Content-Type': 'text/javascript' });
-    // response.end(text);
-
     sendDataLabFile('datatonic.js', response);
   }
   else if (path.lastIndexOf('/custom.css') > 0) {
@@ -200,12 +194,11 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
   } 
   else if (path.indexOf('/nbextensions/') == 0) {
         // Strip off the leading slash to turn path into a relative file path
-		if (path.indexOf('/nbextensions/widgets/') == 0) {
-			sendIPyWidgetsFile(path.substr(22), response);
-		} else {
-			sendNbExtensionsFile(path.substr(14), response);
-		}
-        
+        if (path.indexOf('/nbextensions/widgets/') == 0) {
+            sendIPyWidgetsFile(path.substr(22), response);
+        } else {
+            sendNbExtensionsFile(path.substr(14), response);
+        }     
     }	
   else {
     // Strip off the leading slash to turn path into a relative file path
