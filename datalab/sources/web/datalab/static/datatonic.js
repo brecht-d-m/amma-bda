@@ -1,5 +1,28 @@
 console.log("\n\n...\nA wild Datatonic jQuery widget appeared!\n...\n\n");
 
+var QueryString = function() {
+    // This function is anonymous, is executed immediately and
+    // the return value is assigned to QueryString!
+    var query_string = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        // If first entry with this name
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = decodeURIComponent(pair[1]);
+            // If second entry with this name
+        } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+            query_string[pair[0]] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[pair[0]].push(decodeURIComponent(pair[1]));
+        }
+    }
+    return query_string;
+}();
+
 function initializeDatatonicTree(ipy, notebookList, newNotebook, events, dialog, utils) {
     $('#choseFullView').click(function() {
         document.getElementById("viewChoser").textContent = "Chose view (full view)"
@@ -27,20 +50,26 @@ function initializeDatatonicTree(ipy, notebookList, newNotebook, events, dialog,
 function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
 
     $('head').append('<link rel="stylesheet" href="/static/components/jquery-ui/themes/smoothness/jquery-ui.min.css" type="text/css" />');
-
     require(['notebook/js/notebook'], function(ipy) {
         var notebook = ipy.Notebook;
 
-        // A notebook (safe) copy function
-        notebook.prototype.safe_copy_notebook = function() {
+        notebook.prototype.switch_notebook = function(exportName, exportType) {
+            var exportView = "True";
+
             var that = this;
+            var base_url = this.base_url;
             var parent = utils.url_path_split(this.notebook_path)[0];
             if (parent.startsWith('datalab/')) {
                 parent = '';
             }
             this.contents.copy(this.notebook_path, parent).then(
                 function(data) {
-                    console.log("Notebook saved");
+                    var newLocation = utils.url_join_encode(base_url, 'notebooks', data.path);
+                    newLocation += "?" +
+                        "exportView=" + exportView + "&" +
+                        "exportName=" + exportName + "&" +
+                        "exportType=" + exportType;
+                    var w = window.open(newLocation, "_self");
                 },
                 function(error) {
                     that.events.trigger('notebook_copy_failed', error);
@@ -48,6 +77,8 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
             );
         };
     });
+
+    var notebook_view = "full";
 
     $('#devView').click(function() {
         switchView("codeView");
@@ -68,11 +99,15 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
     $('#exportView').click(function() {
         console.log("Incoming cataclysm, to the shelters!");
 
+        notebook.keyboard_manager.enabled = false;
         var dialogContent =
-            '<p>By exporting this view, all the cell contents that are not shown will be deleted.</p>' +
-            '<p>A copy of the full notebook is made in the background</p>';
+            '<p>By exporting this view, some of the cell contents will be deleted.</p>' +
+            '<p>The original notebook will be saved</p><br></br>' +
+            '<div class="form-group">' +
+            '<label for="exportName" style="font-weight:bold;">Export name:</label>' +
+            '<input type="text" class="form-control" id="exportName" placeholder="Export name">' +
+            '</div>';
 
-        //Provide the opportunity to set a different name?
         var dialogOptions = {
             title: 'Exporting view',
             body: $(dialogContent),
@@ -89,37 +124,46 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
     });
 
     function exportCodeViewCallback() {
-        saveView("code_view", "code_view_export");
+        exportNotebook(document.getElementById('exportName').value, "codeView");
     }
 
     function exportTextViewCallback() {
-        saveView("text_view", "text_view_export");
+        exportNotebook(document.getElementById('exportName').value, "textView");
     }
 
-    function saveView(notebook_view, view_name) {
+    function exportNotebook(notebookName, notebookType) {
         console.log("Initiating Saviour protocol");
-        notebook.safe_copy_notebook();
-        //Need to make deep copy here
-        // Remove all html
-        if (notebook_view == "code_view") {
-            var textCells = document.getElementsByClassName("text_cell");
-            for (var idx = textCells.length - 1; idx >= 0; idx--) {
-                textCells[idx].parentNode.removeChild(textCells[idx]);
-            }
-        }
-        if (notebook_view == "text_view") {
-            var codeCells = document.getElementsByClassName("code_cell");
-            for (var idx = codeCells.length - 1; idx >= 0; idx--) {
-                codeCells[idx].parentNode.removeChild(codeCells[idx]);
-            }
-        }
-        //ToDo: Save as a different notebook/view
-
+        notebook.keyboard_manager.enabled = true;
         notebook.save_notebook();
+        notebook.switch_notebook(notebookName, notebookType);
     }
 
     events.on('notebook_loaded.Notebook', function() {
-        switchInitialView();
+        var exportNotebook = QueryString.exportView;
+        if (exportNotebook == undefined) {
+            switchInitialView();
+        } else {
+            var exportType = QueryString.exportType;
+            var exportName = QueryString.exportName;
+            if (exportType != undefined && exportName != undefined) {
+                notebook.rename(exportName);
+
+                if (exportType == "codeView") {
+                    var textCells = document.getElementsByClassName("text_cell");
+                    for (var idx = textCells.length - 1; idx >= 0; idx--) {
+                        textCells[idx].parentNode.removeChild(textCells[idx]);
+                    }
+                }
+                if (exportType == "textView") {
+                    var codeCells = document.getElementsByClassName("code_cell");
+                    for (var idx = codeCells.length - 1; idx >= 0; idx--) {
+                        codeCells[idx].parentNode.removeChild(codeCells[idx]);
+                    }
+                }
+
+                notebook.save_notebook();
+            }
+        }
     });
 }
 
@@ -130,29 +174,6 @@ function updateNBLinks(nbView) {
         nbLinks[idx].href = newURL + "?view=" + nbView;
     }
 }
-
-var QueryString = function() {
-    // This function is anonymous, is executed immediately and 
-    // the return value is assigned to QueryString!
-    var query_string = {};
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        // If first entry with this name
-        if (typeof query_string[pair[0]] === "undefined") {
-            query_string[pair[0]] = decodeURIComponent(pair[1]);
-            // If second entry with this name
-        } else if (typeof query_string[pair[0]] === "string") {
-            var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
-            query_string[pair[0]] = arr;
-            // If third or later entry with this name
-        } else {
-            query_string[pair[0]].push(decodeURIComponent(pair[1]));
-        }
-    }
-    return query_string;
-}();
 
 function switchInitialView() {
     var initialView = QueryString.view;
@@ -203,7 +224,6 @@ function switchView(nbView) {
 }
 
 function changeView(styleCode, styleInput, styleText) {
-    //Switch views
     document.getElementById("addCodeCellButton").style.display = styleCode;
     document.getElementById("addMarkdownCellButton").style.display = styleText;
 
@@ -231,6 +251,4 @@ function changeView(styleCode, styleInput, styleText) {
     for (var idx = 0; idx < textCells.length; idx++) {
         textCells[idx].style.display = styleText;
     }
-
-    console.log("done");
 }

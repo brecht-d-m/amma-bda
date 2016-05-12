@@ -265,6 +265,7 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
 
     window.datalab.session = new DataLabSession();
 
+
     require(['notebook/js/notebook'], function(ipy) {
         var notebook = ipy.Notebook;
         notebook.prototype.list_checkpoints = placeHolder;
@@ -401,7 +402,7 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
 
     /**
      * Patch the cell auto_highlight code to use a working mode for magic_ MIME types.
-     * The Jupyter code uses a broken multiplexor. This _auto_highlight function is 
+     * The Jupyter code uses a broken multiplexor. This _auto_highlight function is
      * just the Jupyter code with the multiplexor stripped out and an overlay mode
      * put in instead. First we have a function to return the mode that works,
      * then we have the original Jupyter code with a call to our function replacing the
@@ -442,6 +443,7 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
     }
 
     require(["notebook/js/cell"], function(ipy) {
+
         var cell = ipy.Cell;
 
         cell.prototype._auto_highlight = function(modes) {
@@ -887,8 +889,8 @@ function initializeNotebookList(ipy, notebookList, newNotebook, events, dialog, 
     if (debug.checkVersionNumber) {
         checkVersion(window.datalab.versions);
     }
-
 }
+
 
 function initializeDataLab(ipy, events, dialog, utils, security) {
     initializePage(dialog);
