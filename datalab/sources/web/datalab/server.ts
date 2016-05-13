@@ -232,9 +232,12 @@ function requestHandler(request: http.ServerRequest, response: http.ServerRespon
       handledAuthenticatedRequest(request, response, path);
     }
     else {
-      response.statusCode = 302;
-      response.setHeader('Location', auth.getAuthenticationUrl(request));
-      response.end();
+      //response.statusCode = 302;
+      //response.setHeader('Location', auth.getAuthenticationUrl(request));
+      //response.end();
+      response.statusCode = 500;
+      response.end("Authentication file not found: request access from admin.");
+      return;
     }
   });  
 }
