@@ -1,13 +1,28 @@
 doctype html
 html
     head
-        title= title
+        title=title
         link(rel='stylesheet', href='/stylesheets/style.css')
         link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
         link(rel='stylesheet', href='bower_components/font-awesome/css/font-awesome.min.css')
         script(src='https://cdn.socket.io/socket.io-1.4.5.js')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
-        script(src='/javascripts/script.js')
+        if script
+            script(src='/javascripts/' + script + '.js')
     body
-        block content
+        div(id="main-wrapper")
+            nav.navbar.navbar-default.navbar-static-top(role="navigation", style="margin-bottom: 0")
+                div.navbar-header
+                    a.navbar-brand Datatonic
+            div.container
+                div.wrapper-mainpage(style="text-align: center")
+                br
+                br
+                div.col-md-6.col-md-offset-3.text-center
+                    br
+                    br
+                    block content
+            div(id="footer" style="text-align: center")
+                a(href="https://github.com/brecht-d-m/amma-bda")
+                    i.fa.fa-github(style="font-size: 300%")

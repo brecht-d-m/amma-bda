@@ -1,27 +1,3 @@
-var socket = io.connect('http://localhost:3000');
-
-socket.on('notebook', function (data) {
-	var li = document.createElement("li");
-	var link = document.createElement("a")
-	link.innerHTML = data.name;
-	link.setAttribute("href", data.path);
-	li.appendChild(link)
-	document.getElementById("notebooklist").appendChild(li);
-})
-
-socket.on('status', function (data) {
-	var label = document.getElementById("datalab-status");
-	if (data.status == "ok"){
-		label.innerText = "Running"
-		label.textContent = "Running"
-		label.className = "label label-success"
-	} else {
-		label.innerText = data.status
-		label.textContent = data.status
-		label.className = "label label-danger"
-	}
-})
-
 var runLocalFunc = function() {
 	googleProjectId = $("#gcloud-id-input").val();
 	// Create data post request
@@ -56,17 +32,58 @@ var runGCloudFunc = function() {
 	});
 };
 
-function getNotebooks() {
-	socket.emit('getnotebooks');
+var getAuthCode = function() {
+	var link = document.getElementById("authLink");
+	link.innerText = "Generating...";
+	link.setAttribute("href", "#");
+	$('#authButton').prop('disabled', true);
+	$('#authCode').val('');
+
+	$.get("/startAuth", null, function(data, status) {
+		console.log("DATA: " + data);
+		link.innerText = data.toString();
+		link.setAttribute("href", data.toString());
+	});
 }
+
+var sendAuthCode = function() {
+	authCode = $('#authCode').val().toString();
+	$('#authButton').prop('disabled', true);
+	$('#authCode').val('');
+	$("#authModal").modal('hide');
+	// Create data post request
+	authData = new Object();
+	authData.authCode = authCode;
+	// Send post request
+	$.post("/authCode", authData, function(data, status) {
+		console.log("DATA: " + data);
+	});
+};
 
 $(document).ready(function() {
 		//urlExists();
 	$("#run-local-submit").bind("click", runLocalFunc);
 	$("#run-gcloud-submit").bind("click", runGCloudFunc);
-	$("#retrieve-notebooks").bind("click", getNotebooks);
-	socket.emit('getstatus');
-	setInterval(function(){ socket.emit('getstatus') }, 5000);
+
+	$('#authButton').prop('disabled', true);
+	$('#authCode').keyup(function() {
+		if($(this).val() != '') {
+			$('#authButton').prop('disabled', false);
+		} else {
+			$('#authButton').prop('disabled', true);
+		}
+	});
+
+	// AUTHENTICATION
+	$('#authModal').on('show.bs.modal', function (e) {
+		// setup auth process
+		getAuthCode();
+		
+	});
+	$("#authButton").bind("click", sendAuthCode);
+
+	$('#authModal').on('hide.bs.modal', function (e) {
+	});
 });
 
 function urlExists(){
