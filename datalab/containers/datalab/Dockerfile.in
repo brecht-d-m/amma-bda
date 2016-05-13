@@ -69,7 +69,8 @@ RUN pip install -U \
 
 #RUN pip install jupyter
 RUN mkdir -p /root/.local/share/jupyter && \
-    pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user
+#    pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user
+    pip install https://github.com/jfbercher/IPython-notebook-extensions/archive/master.zip --user
 RUN pip install -U ipywidgets==4.1.1
 
 # Setup Workspace-Sync

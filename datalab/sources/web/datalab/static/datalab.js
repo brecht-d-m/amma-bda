@@ -665,6 +665,8 @@ function initializeNotebookApplication(ipy, notebook, events, dialog, utils) {
     });
 
     function showNavigation() {
+        updateNavigation();
+
         document.getElementById('navigation').style.display = '';
         document.getElementById('help').style.display = 'none';
 
