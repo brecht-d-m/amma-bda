@@ -8,14 +8,14 @@ var routes = require('./routes/index');
 
 var app = express();
 var io = require('socket.io')();
-var request = require('request');
 app.io = io;
 
+var exec = require('child_process').exec;
 
 io.on('connection', function (socket) {
   socket.emit("status", {local: local.status, cloud: cloud.status});
   socket.on('getnotebooks', function () {
-    retriever.send_notebooks(local.url, socket);
+    retriever.send_notebooks(cloud.url, socket);
   });
 });
 
@@ -26,7 +26,6 @@ local.url = "http://localhost:8081/";
 cloud.url = "https://datalab-dot-propane-bearing-124123.appspot.com/";
 
 
-
 setInterval( function(){
   updateStatus(local);
   updateStatus(cloud);
@@ -34,9 +33,7 @@ setInterval( function(){
 }, 5000);
 
 function updateStatus(instance){
-  var exec = require('child_process').exec;
-  exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "_ah/health"
-      ,function (error, stdout, stderr) {
+  exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
         if (stdout == "ok") instance.status = "ok";
         else {
           instance.status = "down";
