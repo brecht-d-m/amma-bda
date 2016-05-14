@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/notebookList/', function(req, res, next) {
-  res.render('index', { title: 'Datatonic', script: 'index' });
+  res.render('index', { title: 'Datatonic', script: 'index', pgName: 'notebookList' });
 });
 
 /* GET deployer page. */
 router.get('/deployer/', function(req, res, next) {
-	res.render('deployer', { title: 'Datatonic - Datalab Deployer', script: 'deployer' });
+	res.render('deployer', { title: 'Datatonic - Datalab Deployer', script: 'deployer', pgName: 'deployer' });
 });
 
 /* POST init gcloud page. */
@@ -28,12 +28,27 @@ router.post('/run-local', function(req, res) {
 	projectId = req.body.googleCloudProject;
     loc = 'local';
 
-	// executes "gcloud auth init"
 	child = exec("gcloud auth login", function (error, stdout, stderr) {
 		sys.print('stdout: ' + stdout);
 		sys.print('stderr: ' + stderr);
 		if (error == null) {
 			execSetProject(projectId, res, loc);
+		}
+	});
+});
+
+router.get('/getAuthName', function(req, res) {
+	child = exec("gcloud auth list --format text", function (error, stdout, stderr) {
+		output = stdout.toString();
+		index = output.indexOf('active_account:');
+		if(index > -1) {
+			strName = output.substr(index+15).trim();
+			index2 = output.indexOf('\n');
+			if(index2 > -1) strName = strName.substr(0, index2).trim();
+			console.log("Active account is: " + strName);
+			res.send(strName);
+		} else {
+			res.send("NONE");
 		}
 	});
 });
@@ -48,17 +63,9 @@ router.get('/startAuth', function(req, res) {
 	// Create new process
 	ps = spawn('gcloud', ['auth', 'login', '--no-launch-browser']);
 
-	ps.stdout.on('data', function(output){
-		console.log("STDOUT:" + output);
-	});
-
-	ps.on('error', function( err ){
-		console.log("ERROR:" + err.message);
-	});
-
-	ps.on('close', function(){
-		console.log('Finished');
-	});
+	ps.stdout.on('data', function(output){ console.log("STDOUT:" + output); });
+	ps.on('error', function( err ){ console.log("ERROR:" + err.message); });
+	ps.on('close', function(){ console.log('Authentication finished'); });
 
 	//Error handling
 	ps.stderr.on('data', function(err){
@@ -84,10 +91,11 @@ router.post('/authCode', function(req, res) {
 
 	if(workingPs == null || authCode == null || authCode == '') {
 		console.log("ERROR: Bad auth code: " + authCode);
+		res.end("ERROR");
 		return;
 	}
 	workingPs.stdin.write(authCode + "\n");
-	workingPs.disconnect();
+	res.end("Authenticated");
 	workingPs = null;
 });
 

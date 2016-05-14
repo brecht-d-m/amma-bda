@@ -44,10 +44,29 @@ var getAuthCode = function() {
 		link.innerText = data.toString();
 		link.setAttribute("href", data.toString());
 	});
+};
+
+var getAuthName = function() {
+	var authText = $('#authText');
+	var authAlert = $('#authAlert');
+
+	$.get("/getAuthName", null, function(data, status) {
+		console.log("DATA: " + data)
+		receivedData = data.toString();
+		if(receivedData == 'NONE') {
+			if(authAlert.hasClass('alert-info')) authAlert.removeClass('alert-info');
+			if(!authAlert.hasClass('alert-warning')) authAlert.addClass('alert-warning');
+			authText.html("You are <strong>not authenticated.</strong>");
+		} else {
+			if(authAlert.hasClass('alert-warning')) authAlert.removeClass('alert-warning');
+			if(!authAlert.hasClass('alert-info')) authAlert.addClass('alert-info');
+			authText.html("You are authenticated as <strong>" + receivedData + "</strong>");
+		}
+	});
 }
 
 var sendAuthCode = function() {
-	authCode = $('#authCode').val().toString();
+	authCode = $('#authCode').val();
 	$('#authButton').prop('disabled', true);
 	$('#authCode').val('');
 	$("#authModal").modal('hide');
@@ -57,6 +76,9 @@ var sendAuthCode = function() {
 	// Send post request
 	$.post("/authCode", authData, function(data, status) {
 		console.log("DATA: " + data);
+		setTimeout(function(){
+			getAuthName();
+		}, 2000);
 	});
 };
 
@@ -75,15 +97,10 @@ $(document).ready(function() {
 	});
 
 	// AUTHENTICATION
-	$('#authModal').on('show.bs.modal', function (e) {
-		// setup auth process
-		getAuthCode();
-		
-	});
+	getAuthName();
+	$('#authModal').on('show.bs.modal', function (e) { getAuthCode(); });
 	$("#authButton").bind("click", sendAuthCode);
-
-	$('#authModal').on('hide.bs.modal', function (e) {
-	});
+	//$('#authModal').on('hide.bs.modal', function (e) { });
 });
 
 function urlExists(){
