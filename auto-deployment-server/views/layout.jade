@@ -4,7 +4,7 @@ html
         title=title
         link(rel='stylesheet', href='/stylesheets/style.css')
         link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
-        link(rel='stylesheet', href='bower_components/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/bower_components/font-awesome/css/font-awesome.min.css')
         script(src='https://cdn.socket.io/socket.io-1.4.5.js')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
@@ -15,11 +15,17 @@ html
             nav.navbar.navbar-default.navbar-static-top(role="navigation", style="margin-bottom: 0")
                 div.navbar-header
                     a.navbar-brand Datatonic
+                div.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li(class=(pgName==='deployer' ? 'active' : ''))
+                            a(href='/deployer/') Deployer
+                        li(class=(pgName==='notebookList' ? 'active' : ''))
+                            a(href='/notebookList/') Notebooks
             div.container
                 div.wrapper-mainpage(style="text-align: center")
                 br
                 br
-                div.col-md-6.col-md-offset-3.text-center
+                div.col-md-8.col-md-offset-2.text-center
                     br
                     br
                     block content
