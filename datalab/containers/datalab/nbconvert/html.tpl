@@ -108,8 +108,15 @@ document._in_nbconverted = true;
     }
 </style>
 
+<<<<<<< HEAD
+<script type="text/javascript">
+{% include "settings.js" %}
+{% include "datatonic.js" %}
+</script>
+=======
 <script src="https://gist.githubusercontent.com/brecht-d-m/22f65a38f18a5dd568c14ce976bc87a7/raw/385233fc2c09d2a49a9d7f1ff82ffff6d51e2020/datatonic.js"></script>
 
+>>>>>>> 740e73300a3b08257c739e25ac4ed23efe2081fc
 
 {%- endblock html_head -%}
 </head>
@@ -120,8 +127,13 @@ document._in_nbconverted = true;
 <div id="app">
     <div id="appBar" style="background-color: #fff; color: #6d7078; font: 400 17px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif">
         <span id="logo" class="nav navbar-brand pull-left">
+<<<<<<< HEAD
+            <a id="logo-link" href="http://www.datatonic.com" target="_blank">
+                <img id="logo-img" src="http://datatonic.com/wp-content/themes/datatonic/img/logo.png" alt="<%headerCompanyLogoAlt>" height="31" width="undefined">
+=======
             <a id="logo" href="http://www.datatonic.com" target="_blank">
                 <img src="http://datatonic.com/wp-content/themes/datatonic/img/logo.png" alt="<%headerCompanyLogoAlt>" height="31" width="undefined">
+>>>>>>> 740e73300a3b08257c739e25ac4ed23efe2081fc
             </a>
         </span>
     </div>
@@ -146,7 +158,11 @@ document._in_nbconverted = true;
     </div>
 </div>
 <div id="footer" style="background-color: #fff; color: #6d7078; font: 400 17px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<<<<<<< HEAD
+    <p class="text-muted">Made with &hearts; for <a id="logo-link-footer" href="http://www.datatonic.com" target="_blank">Datatonic</a></p>
+=======
     <p class="text-muted">Made with ♥ for <a href="http://www.datatonic.com" target="_blank">Datatonic</a></p>
+>>>>>>> 740e73300a3b08257c739e25ac4ed23efe2081fc
 </div>
 
 </body>
