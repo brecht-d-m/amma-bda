@@ -25,6 +25,8 @@ var local = {url: "", status: "?"}, cloud = {url: "", status: "?"};
 local.url = "http://localhost:8081/";
 cloud.url = "https://datalab-dot-propane-bearing-124123.appspot.com/";
 
+
+
 setInterval( function(){
   updateStatus(local);
   updateStatus(cloud);
@@ -32,14 +34,14 @@ setInterval( function(){
 }, 5000);
 
 function updateStatus(instance){
-  request(instance.url + "_ah/health", function(error, response, body) {
-    if(error == null){
-      if(response.body != "ok") { instance.status = "?"}
-      else { instance.status = response.body; }
-    } else {
-      instance.status = "down";
-    }
-  });
+  var exec = require('child_process').exec;
+  exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "_ah/health"
+      ,function (error, stdout, stderr) {
+        if (stdout == "ok") instance.status = "ok";
+        else {
+          instance.status = "down";
+        }
+      });
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
