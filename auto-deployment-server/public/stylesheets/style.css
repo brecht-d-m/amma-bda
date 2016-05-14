@@ -31,6 +31,26 @@
 
 .btn-mainpage>:first-child{padding: 5px 0px 5px 0px; border-right:1px solid rgba(0,0,0,0.2)}
 
+.badge-danger {
+    background-color: #d43f3a;
+}
+.badge-warning {
+    background-color: #d58512;
+}
+.badge-success {
+    background-color: #398439;
+}
+
+.badge-danger, .badge-success, .badge-warning {
+    margin-top: 15px;
+    margin-right: 5px;
+    margin-left: -5px;
+}
+
+.input-group {
+    margin-top: 8px;
+}
+
 #footer
 {
     padding: 0;
