@@ -25,8 +25,9 @@ io.on('connection', function (socket) {
     var shutdownurl;
     if (data.location == local.location) { shutdownurl = local.url + "api/sessions/" + data.sessionid; }
     else { shutdownurl = cloud.url + "api/sessions/" + data.sessionid; }
-    exec('wget --method DELETE --load-cookies cookies.txt -q -O - "$@" ' + shutdownurl,function (error, stdout, stderr) {
-      //TODO: reply to client if succesful/unsuccesful ?
+    // TODO: reply to client if succesful/unsuccesful ?
+    // TODO: issue 55 - sessions are still bound to user space so cookie requires (option --load-cookies cookie.txt)
+    exec('wget --method DELETE -q -O - "$@" ' + shutdownurl,function (error, stdout, stderr) {
     });
   });
 });
@@ -45,7 +46,7 @@ setInterval( function(){
 }, 5000);
 
 function updateStatus(instance){
-  exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
+  exec('wget -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
         if (stdout == "ok") instance.status = "ok";
         else {
           instance.status = "down";

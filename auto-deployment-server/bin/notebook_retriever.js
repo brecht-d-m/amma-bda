@@ -1,6 +1,7 @@
 module.exports = {
     send_notebooks: function (instance, client) {
-        exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "api/sessions",
+        // TODO: issue 55 - sessions are bound to user space, requires cookie (option --load-cookies cookie.txt)
+        exec('wget -q -O - "$@" ' + instance.url + "api/sessions",
             function (error, stdout, stderr) {
                 sessions = JSON.parse(stdout)
                 recursiveParse(instance, "", client, sessions)
@@ -11,7 +12,7 @@ module.exports = {
 var exec = require('child_process').exec;
 
 function recursiveParse(instance, path, socket, sessions) {
-    exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "api/contents/" + path,
+    exec('wget -q -O - "$@" ' + instance.url + "api/contents/" + path,
         function (error, stdout, stderr) {
             if (error != null) return;
             parsed = JSON.parse(stdout).content;
