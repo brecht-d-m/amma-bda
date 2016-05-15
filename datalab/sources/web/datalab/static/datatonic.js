@@ -123,6 +123,11 @@ function initializeDatatonicNB(ipy, notebook, events, dialog, utils) {
         dialog.modal(dialogOptions);
     });
 
+    $('#navigateTree').click(function() {
+        var url = document.location.href.replace(/\/notebooks\/.*/, '/tree');
+        window.open(url);
+    });
+
     function exportCodeViewCallback() {
         exportNotebook(document.getElementById('exportName').value, "codeView");
     }
