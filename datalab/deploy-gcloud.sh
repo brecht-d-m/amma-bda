@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # AMMA - BDA
 export REPO_DIR=/usr/share/datalab
 
@@ -16,6 +16,29 @@ alias pylint='pylint --rcfile=$REPO_DIR/tools/pylint.rc'
 
 PROJECT_ID=`gcloud -q config list --format yaml | grep project | awk -F" " '{print $2}'`
 TAG=amma-bda
-DOCKER_IMAGE="gcr.io/$PROJECT_ID/datalab:$TAG"
+REPO=$PROJECT_ID
+
+# Process arguments
+while [[ $# > 1 ]]
+do
+key="$1"
+
+case $key in
+    -r|--repository)
+    REPO="$2"
+    shift # past argument
+    ;;
+    -t|--tag)
+    TAG="$2"
+    shift # past argument
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+
+DOCKER_IMAGE="gcr.io/${REPO}/datalab:${TAG}"
 echo "Docker image: $DOCKER_IMAGE"
-gcloud preview app deploy deploy/app.yaml --image-url $DOCKER_IMAGE --project $PROJECT_ID --version amma-bda --quiet
+gcloud preview app deploy $REPO_DIR/deploy/app.yaml --image-url $DOCKER_IMAGE --project $PROJECT_ID --version amma-bda --quiet
