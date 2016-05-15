@@ -41,7 +41,7 @@ RUN wget -nv https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip && \
     tools/google-cloud-sdk/install.sh --usage-reporting=false \
         --path-update=false --bash-completion=false \
         --disable-installation-options && \
-    tools/google-cloud-sdk/bin/gcloud config set --scope=installation \
+    tools/google-cloud-sdk/bin/gcloud config set --installation \
         component_manager/fixed_sdk_version 0.9.57 && \
     tools/google-cloud-sdk/bin/gcloud -q components update \
         gcloud core bq gsutil compute preview alpha beta && \
@@ -69,7 +69,8 @@ RUN pip install -U \
 
 #RUN pip install jupyter
 RUN mkdir -p /root/.local/share/jupyter && \
-    pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user
+#    pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user
+    pip install https://github.com/jfbercher/IPython-notebook-extensions/archive/master.zip --user
 RUN pip install -U ipywidgets==4.1.1
 
 # Setup Workspace-Sync

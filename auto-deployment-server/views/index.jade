@@ -1,14 +1,6 @@
 extends layout
+s
 block content
-    form(id="google-cloud-init")
-        div.input-group
-            span.input-group-addon(id="id-addon") Google Cloud ID
-            input.form-control(id="gcloud-id-input" type="text", placeholder="Google Cloud Project id", value="propane-bearing-124123")
-    br
-    div
-        h3 Datalab status:
-            span.label.label-danger(id="datalab-status") Polling...
-    br
     div.col-md-6.col-md-offset-3
         span
             button.btn.btn-primary.btn-large(id="retrieve-notebooks", type="button") Retrieve notebooks

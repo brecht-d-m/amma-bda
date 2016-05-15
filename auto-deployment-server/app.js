@@ -9,30 +9,37 @@ var routes = require('./routes/index');
 var app = express();
 var io = require('socket.io')();
 app.io = io;
-var datalab_status = "Polling...";
+
+var exec = require('child_process').exec;
 
 io.on('connection', function (socket) {
-  socket.emit('status', {status: datalab_status});
+  socket.emit("status", {local: local.status, cloud: cloud.status});
   socket.on('getnotebooks', function () {
-    retriever.send_notebooks(datalaburl, socket);
+    retriever.send_notebooks(cloud.url, socket);
   });
 });
 
 retriever = require('./bin/notebook_retriever.js');
-var request = require('request');
-var datalaburl = "http://localhost:8081/";
+
+var local = {url: "", status: "?"}, cloud = {url: "", status: "?"};
+local.url = "http://localhost:8081/";
+cloud.url = "https://datalab-dot-propane-bearing-124123.appspot.com/";
+
 
 setInterval( function(){
-  request(datalaburl + "_ah/health", function(error, response, body) {
-    if(error == null){
-      datalab_status = response.body;
-    } else {
-      datalab_status = "down";
-    }
-  });
-  io.sockets.emit("status", {status: datalab_status})
+  updateStatus(local);
+  updateStatus(cloud);
+  io.sockets.emit("status", {local: local.status, cloud: cloud.status});
 }, 5000);
 
+function updateStatus(instance){
+  exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
+        if (stdout == "ok") instance.status = "ok";
+        else {
+          instance.status = "down";
+        }
+      });
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

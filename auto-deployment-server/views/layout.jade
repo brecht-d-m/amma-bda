@@ -2,12 +2,13 @@ doctype html
 html
     head
         title=title
-        link(rel='stylesheet', href='/stylesheets/style.css')
         link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
         link(rel='stylesheet', href='/bower_components/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
         script(src='https://cdn.socket.io/socket.io-1.4.5.js')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+        script(src='/javascripts/status.js')
         if script
             script(src='/javascripts/' + script + '.js')
     body
@@ -21,12 +22,22 @@ html
                             a(href='/deployer/') Deployer
                         li(class=(pgName==='notebookList' ? 'active' : ''))
                             a(href='/notebookList/') Notebooks
+                    div.col-sm-6.col-md-6
+                        form(id="google-cloud-init")
+                            div.input-group
+                                span.input-group-addon(id="id-addon") Google Cloud ID
+                                input.form-control(id="gcloud-id-input" type="text", placeholder="Google Cloud Project id", value="propane-bearing-124123")
+                    ul.nav.nav-pills.pull-right
+                            li
+                                span.navbar-text Local
+                                span.badge.badge-warning(id="local-status") ?
+                            li
+                                span.navbar-text Cloud
+                                span.badge.badge-warning(id="cloud-status") ?
+
             div.container
                 div.wrapper-mainpage(style="text-align: center")
-                br
-                br
                 div.col-md-8.col-md-offset-2.text-center
-                    br
                     br
                     block content
             div(id="footer" style="text-align: center")
