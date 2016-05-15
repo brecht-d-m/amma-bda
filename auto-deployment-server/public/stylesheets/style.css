@@ -68,11 +68,23 @@
     width: 100%;
 }
 
-table, th, td {
 
+
+table {
+    height: 400px;
+    overflow: auto;
+    display:block;
 }
 
 td {
     padding: 5px;
     text-align: left
+}
+
+.divider{
+    top: 1%;
+    position:absolute;
+    left:50%;
+    bottom:1%;
+    border-left:1px solid black;
 }
