@@ -15,18 +15,24 @@
 
 # Publishes the built docker image to the registry for testing purposes.
 
-TAG=amma-bda
 
 # Grant read permissions to all users on all objects added in the GCS bucket
 # that holds docker image files by ACLing the bucket and setting the default
 # for any new items added
 PROJECT_ID=`gcloud -q config list --format yaml | grep project | awk -F" " '{print $2}'`
 
-gsutil acl ch -g all:R gs://artifacts.$PROJECT_ID.appspot.com
-gsutil defacl ch -u all:R gs://artifacts.$PROJECT_ID.appspot.com
+# Handle arguments
+REPO=${1:-${PROJECT_ID}}
+TAG=${2:-amma-bda}
+ACCESS=${3:-true}
+
+if [ "$ACCESS" = true ] ; then
+   gsutil acl ch -g all:R gs://artifacts.$REPO.appspot.com
+   gsutil defacl ch -u all:R gs://artifacts.$REPO.appspot.com
+fi
 
 LOCAL_IMAGE=datalab
-CLOUD_IMAGE=gcr.io/$PROJECT_ID/datalab:$TAG
+CLOUD_IMAGE=gcr.io/$REPO/datalab:$TAG
 
 echo "Publishing $LOCAL_IMAGE to $CLOUD_IMAGE ..."
 docker tag -f $LOCAL_IMAGE $CLOUD_IMAGE

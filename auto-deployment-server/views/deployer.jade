@@ -3,20 +3,22 @@ block content
     div.col-md-10.col-md-offset-1.text-center
         form(id="google-cloud-init")
             div.alert.alert-info.text-left(id="authAlert", role='alert')
-                button.btn.btn-primary.btn-large(type="button", data-toggle="modal", data-target="#authModal") Authenticate
+                button.btn.btn-primary.btn-large(id="authModalButton", type="button") Authenticate
                 span(id="authText", style="padding-left: 20px") You are authenticated as <strong>USER</strong>.
             br
             br
             div.input-group
-                span.input-group-addon(id="id-addon") Google Cloud ID
+                span.input-group-addon(id="id-addon") Google Cloud Project ID
                 input.form-control(id="gcloud-id-input" type="text", placeholder="Google Cloud Project id", value="propane-bearing-124123")
             br
             div.btn-group.btn-group-lg
-                button.btn.btn-info(id="run-local-submit", type="button") <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Deploy locally
-                button.btn.btn-primary(id="run-gcloud-submit", type="button") <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Deploy to Google Cloud
+                button.btn.btn-info(id="run-local-submit", type="button", disabled) <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Deploy locally
+                button.btn.btn-primary(id="run-gcloud-submit", type="button", disabled) <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Deploy to Google Cloud
             br
             br
-    textarea.form-control(rows="12", style="font-family: Consolas, Lucida Console, monospace;", disabled) > Command line output is displayed here while deploying
+    textarea.form-control(id="deployCmd", rows="12", style="font-family: Consolas, Lucida Console, monospace;", readonly) > Command line output is displayed here while deploying
+    br
+    p.lead(id="deploymentLink")
     div.modal.fade.text-left(id="authModal", tabindex="-1", role="dialog", aria-labelledby="authModalLabel")
         div.modal-dialog(role="document")
             div.modal-content
