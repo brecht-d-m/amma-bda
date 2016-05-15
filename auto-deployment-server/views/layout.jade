@@ -9,6 +9,7 @@ html
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
         script(src='/javascripts/status.js')
+        script(src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js")
         if script
             script(src='/javascripts/' + script + '.js')
     body
@@ -37,7 +38,7 @@ html
 
             div.container
                 div.wrapper-mainpage(style="text-align: center")
-                div.col-md-8.col-md-offset-2.text-center
+                div.col-md-12.text-center
                     br
                     block content
             div(id="footer" style="text-align: center")

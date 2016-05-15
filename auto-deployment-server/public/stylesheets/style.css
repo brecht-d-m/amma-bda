@@ -60,3 +60,12 @@
     bottom: 0px;
     width: 100%;
 }
+
+table, th, td {
+    border: 1px solid black;
+}
+
+td {
+    padding: 5px;
+    text-align: left
+}

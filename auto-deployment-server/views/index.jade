@@ -1,7 +1,13 @@
 extends layout
-s
 block content
-    div.col-md-6.col-md-offset-3
-        span
-            button.btn.btn-primary.btn-large(id="retrieve-notebooks", type="button") Retrieve notebooks
-            ul.list-group(id="notebooklist")
+    div.col-md-5
+        button.btn.btn-primary.btn-large(id="retrieve-local-notebooks", type="button") Retrieve local notebooks
+        br
+        br
+        table(id="local-notebooklist")
+    div.col-md-2
+    div.col-md-5
+        button.btn.btn-primary.btn-large(id="retrieve-cloud-notebooks", type="button") Retrieve cloud notebooks
+        br
+        br
+        table(id="cloud-notebooklist")

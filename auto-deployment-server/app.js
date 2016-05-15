@@ -14,14 +14,15 @@ var exec = require('child_process').exec;
 
 io.on('connection', function (socket) {
   socket.emit("status", {local: local.status, cloud: cloud.status});
-  socket.on('getnotebooks', function () {
-    retriever.send_notebooks(cloud.url, socket);
+  socket.on('getnotebooks', function (data) {
+    if (data.instance == local.location) { retriever.send_notebooks(local, socket); }
+    else { retriever.send_notebooks(cloud, socket); }
   });
 });
 
 retriever = require('./bin/notebook_retriever.js');
 
-var local = {url: "", status: "?"}, cloud = {url: "", status: "?"};
+var local = {location: "local", url: "", status: "?"}, cloud = {location: "cloud", url: "", status: "?"};
 local.url = "http://localhost:8081/";
 cloud.url = "https://datalab-dot-propane-bearing-124123.appspot.com/";
 
