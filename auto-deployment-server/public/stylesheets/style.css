@@ -47,6 +47,13 @@
     margin-left: -5px;
 }
 
+.sessionbadge {
+    margin-top: 0px;
+    margin-right: 5px;
+    margin-left: -5px;
+    cursor: pointer;
+}
+
 .input-group {
     margin-top: 8px;
 }
@@ -62,7 +69,7 @@
 }
 
 table, th, td {
-    border: 1px solid black;
+
 }
 
 td {

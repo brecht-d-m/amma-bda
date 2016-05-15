@@ -13,10 +13,21 @@ app.io = io;
 var exec = require('child_process').exec;
 
 io.on('connection', function (socket) {
+  // Send status
   socket.emit("status", {local: local.status, cloud: cloud.status});
+  // Send notebooks to client
   socket.on('getnotebooks', function (data) {
     if (data.instance == local.location) { retriever.send_notebooks(local, socket); }
     else { retriever.send_notebooks(cloud, socket); }
+  });
+  // Client requests notebook shutdown
+  socket.on('shutdown', function (data) {
+    var shutdownurl;
+    if (data.location == local.location) { shutdownurl = local.url + "api/sessions/" + data.sessionid; }
+    else { shutdownurl = cloud.url + "api/sessions/" + data.sessionid; }
+    exec('wget --method DELETE --load-cookies cookies.txt -q -O - "$@" ' + shutdownurl,function (error, stdout, stderr) {
+      //TODO: reply to client if succesful/unsuccesful ?
+    });
   });
 });
 
