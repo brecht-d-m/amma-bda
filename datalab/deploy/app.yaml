@@ -28,6 +28,14 @@ handlers:
   script: app.js
   login: optional
   secure: always
+- url: /_ah/health
+  script: app.js
+  login: optional
+  secure: always
+- url: /api/.*
+  script: app.js
+  login: optional
+  secure: always
 - url: /command/.*
   script: app.js
   login: admin
@@ -35,7 +43,7 @@ handlers:
   secure: always
 - url: /.*
   script: app.js
-  login: optional
+  login: required
   auth_fail_action: redirect
   secure: always
 

@@ -73,5 +73,5 @@ gcloud preview app deploy $REPO_DIR/deploy/custom_app.yaml --image-url $DOCKER_I
 # Cleanup
 rm $REPO_DIR/deploy/custom_app.yaml
 if [ "$USED_ENV" == true ] ; then
-    echo -n > "$REPO_DIR/containers/datalab/env_vars.txt"
+    echo -n > "$REPO_DIR/deploy/env_vars.txt"
 fi
