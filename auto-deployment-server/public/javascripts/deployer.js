@@ -77,6 +77,7 @@ var getAuthName = function() {
 	var authText = $('#authText');
 	var authAlert = $('#authAlert');
 	var authModalButton = $('#authModalButton');
+	var notebookListNav = $('#notebookListNav');
 
 	$.get("/getAuthName", null, function(data, status) {
 		console.log("DATA: " + data)
@@ -102,6 +103,7 @@ var getAuthName = function() {
 			authModalButton.html('Sign out');
 			if(authModalButton.hasClass('btn-warning')) authModalButton.removeClass('btn-warning');
 			if(!authModalButton.hasClass('btn-primary')) authModalButton.addClass('btn-primary');
+			notebookListNav.attr("href", "/notebookList?user=" + authMail);
 		}
 	});
 };
