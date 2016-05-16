@@ -15,10 +15,8 @@ export PATH=$PATH:$REPO_DIR/tools
 # Add aliases
 alias pylint='pylint --rcfile=$REPO_DIR/tools/pylint.rc'
 
-PROJECT_ID=`gcloud -q config list --format yaml | grep project | awk -F" " '{print $2}'`
-TAG=amma-bda
-REPO=$PROJECT_ID
-ACCESS=true
+BUILD=false
+USED_ENV=false
 
 # Process arguments
 while [[ $# > 0 ]]
@@ -26,16 +24,14 @@ do
 key="$1"
 
 case $key in
-    -r|--repository)
-    REPO="$2"
-    shift # past argument
+    -b|--build)
+    BUILD=true
     ;;
-    -t|--tag)
-    TAG="$2"
-    shift # past argument
-    ;;
-    --no-access)
-    ACCESS=false
+    -e|--environment)
+    shift
+    $REPO_DIR/set-env-vars.sh "local" "$@"
+    USED_ENV=true
+    break
     ;;
     *)
             # unknown option
@@ -44,10 +40,16 @@ esac
 shift # past argument or value
 done
 
-$REPO_DIR/sources/build.sh
+if [ "$BUILD" == true ] ; then
+    $REPO_DIR/sources/build.sh
+    cd $REPO_DIR/containers/datalab
+    $REPO_DIR/containers/datalab/build.sh
+else
+    cd $REPO_DIR/containers/datalab
+fi
+$REPO_DIR/containers/datalab/run.sh
 
-cd $REPO_DIR/containers/datalab
-$REPO_DIR/containers/datalab/build.sh
-$REPO_DIR/containers/datalab/stage-gcloud.sh $REPO $TAG $ACCESS
-#https://cloud-datalab-deploy.appspot.com?container=gcr.io/$PROJECT_ID/datalab:$USER_$TAG
-#$REPO_DIR/containers/datalab/run.sh
+# Cleanup
+if [ "$USED_ENV" == true ] ; then
+    echo -n > "$REPO_DIR/containers/datalab/env_vars.txt"
+fi

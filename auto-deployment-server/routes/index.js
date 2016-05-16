@@ -114,7 +114,7 @@ router.post('/run-local', function(req, res) {
 		sys.print('stderr: ' + stderr);
 		if (error == null) {
 			// Create new process
-			ps = spawn('/usr/share/datalab/start-amma-bda.sh');
+			ps = spawn('/usr/share/datalab/deploy-local.sh');
 			deployPs = ps;
 
 			ps.stdout.on('data', function(output){

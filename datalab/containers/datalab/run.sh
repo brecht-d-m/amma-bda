@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright 2015 Google Inc. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,5 +48,6 @@ docker run -d --entrypoint=$ENTRYPOINT \
   -v $HOME/.config/gcloud:/root/.config/gcloud \
   -v $REPO_DIR/content:/content \
   -e "DATALAB_PROJECT_NUM=$PROJECT_NUM" \
+  --env-file env_vars.txt \
   datalab
 #  -t datalab

@@ -54,7 +54,7 @@ export function getUserId(request: http.ServerRequest): string {
  * the directory is root_dir + emailaddress, such as '/content/user@domain.com'.
  */
 export function getUserDir(userId: string): string {
-  if (!appSettings.useWorkspace) {
+  if (!appSettings.useWorkspace || appSettings.useMergedWorkspace) {
     // If the workspace feature is not enabled, then just use the content directory specified
     // in configuration.
     return appSettings.contentDir;
