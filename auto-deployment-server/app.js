@@ -17,16 +17,17 @@ io.on('connection', function (socket) {
   socket.emit("status", {local: local.status, cloud: cloud.status});
   // Send notebooks to client
   socket.on('getnotebooks', function (data) {
-    if (data.instance == local.location) { retriever.send_notebooks(local, socket); }
-    else { retriever.send_notebooks(cloud, socket); }
+    if (data.instance == local.location) { retriever.send_notebooks(local, socket, data.user); }
+    else { retriever.send_notebooks(cloud, socket, data.user); }
   });
   // Client requests notebook shutdown
   socket.on('shutdown', function (data) {
     var shutdownurl;
     if (data.location == local.location) { shutdownurl = local.url + "api/sessions/" + data.sessionid; }
     else { shutdownurl = cloud.url + "api/sessions/" + data.sessionid; }
-    exec('wget --method DELETE --load-cookies cookies.txt -q -O - "$@" ' + shutdownurl,function (error, stdout, stderr) {
-      //TODO: reply to client if succesful/unsuccesful ?
+    // TODO: reply to client if succesful/unsuccesful ?
+    var cookie = "datalab_user=" + data.user + " ";
+    exec('curl -X DELETE --cookie ' + cookie + shutdownurl,function (error, stdout, stderr) {
     });
   });
 });
@@ -45,7 +46,7 @@ setInterval( function(){
 }, 5000);
 
 function updateStatus(instance){
-  exec('wget --load-cookies cookies.txt -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
+  exec('wget -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
         if (stdout == "ok") instance.status = "ok";
         else {
           instance.status = "down";

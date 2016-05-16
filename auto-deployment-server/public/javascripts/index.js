@@ -31,7 +31,7 @@ function createNotebookStatus(data){
         status.innerHTML = "Shutdown";
         status.className += " badge badge-warning sessionbadge"
         status.onclick = function() {
-            socket.emit('shutdown', {location: data.location, sessionid: data.sessionid});
+            socket.emit('shutdown', {location: data.location, sessionid: data.sessionid, user: getURLParameter("user")});
             status.innerHTML = "";
         }
     }
@@ -48,7 +48,11 @@ function getCloudNotebooks() {
 
 function getNotebooks(location) {
     document.getElementById(location + "-notebooklist").innerHTML = "";
-	socket.emit('getnotebooks', {instance: location});
+	socket.emit('getnotebooks', {instance: location, user: getURLParameter("user")});
+}
+
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
 
 $(document).ready(function() {
