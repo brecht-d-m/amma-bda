@@ -12,7 +12,7 @@ var cmdOutput = "";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.redirect('/notebookList/');
+	res.redirect('/deployer/');
 });
 
 router.get('/notebookList/', function(req, res, next) {
