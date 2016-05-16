@@ -172,6 +172,8 @@ var sendAuthRevoke = function() {
 
 $(document).ready(function() {
 		//urlExists();
+	$('#headerBackColor2').colorpicker();
+	$('#headerColor2').colorpicker();
 	$("#run-local-submit").bind("click", runLocalFunc);
 	$("#run-gcloud-submit").bind("click", runGCloudFunc);
 	$("#authModalButton").bind("click", clickAuth);
