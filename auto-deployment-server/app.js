@@ -17,8 +17,8 @@ io.on('connection', function (socket) {
   socket.emit("status", {local: local.status, cloud: cloud.status});
   // Send notebooks to client
   socket.on('getnotebooks', function (data) {
-    if (data.instance == local.location) { retriever.send_notebooks(local, socket); }
-    else { retriever.send_notebooks(cloud, socket); }
+    if (data.instance == local.location) { retriever.send_notebooks(local, socket, data.user); }
+    else { retriever.send_notebooks(cloud, socket, data.user); }
   });
   // Client requests notebook shutdown
   socket.on('shutdown', function (data) {
@@ -26,8 +26,8 @@ io.on('connection', function (socket) {
     if (data.location == local.location) { shutdownurl = local.url + "api/sessions/" + data.sessionid; }
     else { shutdownurl = cloud.url + "api/sessions/" + data.sessionid; }
     // TODO: reply to client if succesful/unsuccesful ?
-    // TODO: issue 55 - sessions are still bound to user space so cookie requires (option --load-cookies cookie.txt)
-    exec('wget --method DELETE -q -O - "$@" ' + shutdownurl,function (error, stdout, stderr) {
+    var cookie = "datalab_user=" + data.user + " ";
+    exec('curl -X DELETE --cookie ' + cookie + shutdownurl,function (error, stdout, stderr) {
     });
   });
 });

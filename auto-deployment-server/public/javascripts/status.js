@@ -6,7 +6,6 @@ var socket = io.connect('http://localhost:3000');
 socket.on('status', function (data) {
     updateStatusLabel(document.getElementById("local-status"), data.local, $("#retrieve-local-notebooks"));
     updateStatusLabel(document.getElementById("cloud-status"), data.cloud, $("#retrieve-cloud-notebooks"));
-
 });
 
 function updateStatusLabel(label, data, button){

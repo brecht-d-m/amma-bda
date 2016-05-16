@@ -1,7 +1,7 @@
 module.exports = {
-    send_notebooks: function (instance, client) {
-        // TODO: issue 55 - sessions are bound to user space, requires cookie (option --load-cookies cookie.txt)
-        exec('wget -q -O - "$@" ' + instance.url + "api/sessions",
+    send_notebooks: function (instance, client, user) {
+        var cookie = "datalab_user="+user+" ";
+        exec("curl --cookie " + cookie + instance.url + "api/sessions",
             function (error, stdout, stderr) {
                 sessions = JSON.parse(stdout)
                 recursiveParse(instance, "", client, sessions)
