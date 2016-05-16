@@ -10,7 +10,8 @@
   "serverPort": 8080,
   "contentDir": "/content",
   "useWorkspace": true,
-  "supportUserOverride": false,
+  "useMergedWorkspace": true,
+  "supportUserOverride": true,
   "jupyterArgs": [
     "notebook",
     "-y",

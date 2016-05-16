@@ -35,10 +35,11 @@ handlers:
   secure: always
 - url: /.*
   script: app.js
-  login: required
+  login: optional
   auth_fail_action: redirect
   secure: always
 
 env_variables:
   DATALAB_ANALYTICS_ID: UA-54894152-3
   DATALAB_CONFIG_URL: https://storage.googleapis.com/cloud-datalab/deploy/version_check.js
+  DATALAB_NO_AUTH: true

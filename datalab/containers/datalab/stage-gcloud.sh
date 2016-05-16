@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright 2015 Google Inc. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ REPO=${1:-${PROJECT_ID}}
 TAG=${2:-amma-bda}
 ACCESS=${3:-true}
 
-if [ "$ACCESS" = true ] ; then
+if [ "$ACCESS" == true ] ; then
    gsutil acl ch -g all:R gs://artifacts.$REPO.appspot.com
    gsutil defacl ch -u all:R gs://artifacts.$REPO.appspot.com
 fi

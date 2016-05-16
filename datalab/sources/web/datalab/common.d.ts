@@ -79,6 +79,7 @@ declare module common {
      * Whether to use the git and workspace functionality.
      */
     useWorkspace: boolean;
+    useMergedWorkspace: boolean;
 
     /**
      * Whether to support querystring based user overriding.
