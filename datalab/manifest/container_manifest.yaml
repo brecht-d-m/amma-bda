@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: datalab
+spec:
+  containers:
+    - name: datalab
+      image: gcr.io/propane-bearing-124123/datalab:amma_bda
+      imagePullPolicy: Always
+      env:
+        - name: DATALAB_PROJECT_NUM
+          value: 183699591844 
+      ports:
+        - containerPort: 8081
+          hostPort: 8080
