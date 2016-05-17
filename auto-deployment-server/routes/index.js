@@ -7,8 +7,10 @@ var spawn = require('child_process').spawn;
 var child;
 var authPs = null;
 var deployPs = null;
+var appExports = null;
 var router = express.Router();
 var cmdOutput = "";
+var projectID = "propane-bearing-124123";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,12 +18,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/notebookList/', function(req, res, next) {
-  res.render('index', { title: 'Datatonic', script: 'index', pgName: 'notebookList' });
+  res.render('index', { title: 'Datatonic', script: 'index', pgName: 'notebookList', projectID: projectID });
 });
 
 /* GET deployer page. */
 router.get('/deployer/', function(req, res, next) {
-	res.render('deployer', { title: 'Datatonic - Datalab Deployer', script: 'deployer', pgName: 'deployer' });
+	res.render('deployer', { title: 'Datatonic - Datalab Deployer', script: 'deployer', pgName: 'deployer', projectID: projectID });
 });
 
 /* ----------- AUTHENTICATION ----------- */
@@ -177,6 +179,16 @@ router.get('/deployCmd', function(req, res) {
 			res.send("NONE");
 		}
 	}
+});
+
+router.post('/changePID', function(req, res) {
+	console.log(req.body.googleCloudProject);
+	projectID = req.body.googleCloudProject;
+	if(appExports == null) {
+		appExports = require('../app.js');
+	}
+	appExports.setCloudURL(projectID);
+	res.send("DONE");
 });
 
 module.exports = router;

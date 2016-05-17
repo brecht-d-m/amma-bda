@@ -23,3 +23,14 @@ function updateStatusLabel(label, data, button){
         button.prop('disabled', true);
     }
 }
+
+$(document).ready(function(){
+    $("#gcloud-id-input").focusout(function(){
+        googleProjectId = $("#gcloud-id-input").val();
+        googleProjectData = new Object();
+        googleProjectData.googleCloudProject = googleProjectId;
+        $.post("/changePID", googleProjectData, function (data, status) {
+            console.log("DATA: " + data);
+        });
+    });
+});
