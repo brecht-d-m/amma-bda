@@ -17,7 +17,7 @@
 
 # Export a variable corresponding to the root of the repository
 SCRIPT=$0
-if [ "$SCRIPT" == "-bash" ]; then
+if ["$SCRIPT" == "-bash" ]; then
   SCRIPT= ${BASH_SOURCE[0]}
 fi
 export REPO_DIR=$(git rev-parse --show-toplevel)/datalab
