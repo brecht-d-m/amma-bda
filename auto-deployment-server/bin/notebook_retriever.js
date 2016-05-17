@@ -4,15 +4,15 @@ module.exports = {
         exec("curl --cookie " + cookie + instance.url + "api/sessions",
             function (error, stdout, stderr) {
                 sessions = JSON.parse(stdout)
-                recursiveParse(instance, "", client, sessions)
+                recursiveParse(instance, "", client, sessions, cookie)
             });
     }
 }
 
 var exec = require('child_process').exec;
 
-function recursiveParse(instance, path, socket, sessions) {
-    exec('wget -q -O - "$@" ' + instance.url + "api/contents/" + path,
+function recursiveParse(instance, path, socket, sessions, cookie) {
+    exec("curl --cookie " + cookie + instance.url + "api/contents/" + path,
         function (error, stdout, stderr) {
             if (error != null) return;
             parsed = JSON.parse(stdout).content;
@@ -28,7 +28,7 @@ function recursiveParse(instance, path, socket, sessions) {
                     socket.emit('notebook', notebook);
                 }
                 if (parsed[i].type == 'directory') {
-                    recursiveParse(instance, parsed[i].path, socket, sessions);
+                    recursiveParse(instance, parsed[i].path, socket, sessions, cookie);
                 }
             }
         });

@@ -1,16 +1,71 @@
 extends layout
 block content
     div.col-md-10.col-md-offset-1.text-center
-        form(id="google-cloud-init")
-            div.alert.alert-info.text-left(id="authAlert", role='alert')
-                button.btn.btn-primary.btn-large(id="authModalButton", type="button") Authenticate
-                span(id="authText", style="padding-left: 20px") You are authenticated as <strong>USER</strong>.
+        div.alert.alert-info.text-left(id="authAlert", role='alert')
+            button.btn.btn-primary.btn-large(id="authModalButton", type="button") Authenticate
+            span(id="authText", style="padding-left: 20px") You are authenticated as <strong>USER</strong>.
             br
-            div.btn-group.btn-group-lg
-                button.btn.btn-info(id="run-local-submit", type="button", disabled) <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Deploy locally
-                button.btn.btn-primary(id="run-gcloud-submit", type="button", disabled) <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Deploy to Google Cloud
-            br
-            br
+        div.panel.panel-default(id="panel")
+            #headingOne.panel-heading(role='tab')
+                h4.panel-title
+                    a.accordion-toggle.collapsed(role='button', data-toggle='collapse', data-parent='#panel', href='#collapseOne', aria-expanded='true', aria-controls='collapseOne')
+                        | Optional deployment settings
+            #collapseOne.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingOne')
+                .panel-body.text-left
+                    form.form-horizontal
+                        .form-group.text-center
+                            .checkbox
+                                label
+                                    input#build(type='checkbox')
+                                    |  Build <em>(Note: for remote deployment, this option will push the built image to gcr.io/&lt;PROJECT_ID&gt;/datalab:amma-bda and deploy it)</em>
+                        .form-group
+                            label.col-sm-3.control-label(for='headerBackColor2') Header background color
+                            .col-sm-9
+                                #headerBackColor2.input-group.colorpicker-component
+                                    input#headerBackgroundColor.form-control(type='text', value='#ffffff')
+                                    span.input-group-addon
+                                        i
+                        .form-group
+                            label.col-sm-3.control-label(for='headerColor2') Header color
+                            .col-sm-9
+                                #headerColor2.input-group.colorpicker-component
+                                    input#headerColor.form-control(type='text', value='#6d7078')
+                                    span.input-group-addon
+                                        i
+                        .form-group
+                            label.col-sm-3.control-label(for='headerFont') Header font
+                            .col-sm-9
+                                input#headerFont.form-control(type='text', placeholder='Header font', value="400 17px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif")
+                        .form-group
+                            label.col-sm-3.control-label(for='headerCompanyName') Company name
+                            .col-sm-9
+                                input#headerCompanyName.form-control(type='text', placeholder='Company name', value="Datatonic")
+                        .form-group
+                            label.col-sm-3.control-label(for='headerCompanyLink') Company URL
+                            .col-sm-9
+                                input#headerCompanyLink.form-control(type='url', placeholder='Company URL', value="http://www.datatonic.com")
+                        .form-group
+                            label.col-sm-3.control-label(for='headerCompanyLogo') Company logo URL
+                            .col-sm-9
+                                input#headerCompanyLogo.form-control(type='url', placeholder='Company logo URL', value="http://datatonic.com/wp-content/themes/datatonic/img/logo.png")
+                        .form-group
+                            label.col-sm-3.control-label(for='headerCompanyLogoAlt') Company logo alt
+                            .col-sm-9
+                                input#headerCompanyLogoAlt.form-control(type='text', placeholder='Company logo alt', value="datatonic")
+                        .form-group
+                            label.col-sm-3.control-label(for='headerCompanyLogoWidth') Company logo width
+                            .col-sm-9
+                                input#headerCompanyLogoWidth.form-control(type='number', placeholder='Company logo width', value="168")
+                        .form-group
+                            label.col-sm-3.control-label(for='headerCompanyLogoHeight') Company logo height
+                            .col-sm-9
+                                input#headerCompanyLogoHeight.form-control(type='number', placeholder='Company logo height', value="31")
+        div.btn-group.btn-group-lg
+            button.btn.btn-info(id="run-local-submit", type="button", disabled) <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Deploy locally
+            button.btn.btn-primary(id="run-gcloud-submit", type="button", disabled) <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Deploy to Google Cloud
+        br
+        br
+
     textarea.form-control(id="deployCmd", rows="12", style="font-family: Consolas, Lucida Console, monospace;", readonly) > Command line output is displayed here while deploying
     br
     p.lead(id="deploymentLink")

@@ -3,11 +3,13 @@ html
     head
         title=title
         link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/bower_components/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')
         link(rel='stylesheet', href='/bower_components/font-awesome/css/font-awesome.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
         script(src='https://cdn.socket.io/socket.io-1.4.5.js')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+        script(src='/bower_components/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')
         script(src='/javascripts/status.js')
         script(src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js")
         if script
@@ -22,12 +24,12 @@ html
                         li(class=(pgName==='deployer' ? 'active' : ''))
                             a(href='/deployer/') Deployer
                         li(class=(pgName==='notebookList' ? 'active' : ''))
-                            a(href='/notebookList/') Notebooks
+                            a(id="notebookListNav", href='/notebookList/') Notebooks
                     div.col-sm-6.col-md-6
                         form(id="google-cloud-init")
                             div.input-group
                                 span.input-group-addon(id="id-addon") Google Cloud ID
-                                input.form-control(id="gcloud-id-input" type="text", placeholder="Google Cloud Project id", value="propane-bearing-124123")
+                                input.form-control(id="gcloud-id-input" type="text", placeholder="Google Cloud Project id", value=projectID)
                     ul.nav.nav-pills.pull-right
                             li
                                 span.navbar-text Local
@@ -41,6 +43,12 @@ html
                 div.col-md-12.text-center
                     br
                     block content
+            //- keep these br's here, since the footer overlaps with this.
+            br
+            br
+            br
+            br
+            br
             div(id="footer" style="text-align: center")
                 a(href="https://github.com/brecht-d-m/amma-bda")
                     i.fa.fa-github(style="font-size: 300%")

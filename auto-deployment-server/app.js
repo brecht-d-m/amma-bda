@@ -108,3 +108,14 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+module.exports.setCloudURL = function(projectID) {
+  var newCloudURL = "https://datalab-dot-" + projectID + ".appspot.com/";
+  console.log("Setting cloud URL to: " + newCloudURL);
+  if(newCloudURL != cloud.url) {
+    cloud.url = newCloudURL;
+    updateStatus(local);
+    updateStatus(cloud);
+    io.sockets.emit("status", {local: local.status, cloud: cloud.status});
+  }
+};
