@@ -16,13 +16,13 @@ block content
                         .form-group.text-center
                             .checkbox
                                 label
-                                    input(type='checkbox')
+                                    input#build(type='checkbox')
                                     |  Build <em>(Note: for remote deployment, this option will push the built image to gcr.io/&lt;PROJECT_ID&gt;/datalab:amma-bda and deploy it)</em>
                         .form-group
                             label.col-sm-3.control-label(for='headerBackColor2') Header background color
                             .col-sm-9
                                 #headerBackColor2.input-group.colorpicker-component
-                                    input#headerBackColor.form-control(type='text', value='#ffffff')
+                                    input#headerBackgroundColor.form-control(type='text', value='#ffffff')
                                     span.input-group-addon
                                         i
                         .form-group

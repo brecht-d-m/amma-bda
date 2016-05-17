@@ -3,19 +3,37 @@ var authenticated = false;
 var authMail = null;
 var deployLink = 'http://localhost:8081/';
 
+var getDeployParameters = function() {
+	var data = new Object();
+	data.googleCloudProject = $("#gcloud-id-input").val();
+	data.build = $("#build").is(':checked');
+
+	// Environment variables
+	data.headerBackgroundColor = $("#headerBackgroundColor").val();
+	data.headerColor = $("#headerColor").val();
+	data.headerFont = $("#headerFont").val();
+	data.headerCompanyName = $("#headerCompanyName").val();
+	data.headerCompanyLink = $("#headerCompanyLink").val();
+	data.headerCompanyLogo = $("#headerCompanyLogo").val();
+	data.headerCompanyLogoAlt = $("#headerCompanyLogoAlt").val();
+	data.headerCompanyLogoWidth = $("#headerCompanyLogoWidth").val();
+	data.headerCompanyLogoHeight = $("#headerCompanyLogoHeight").val();
+
+	return data;
+}
+
 var runLocalFunc = function() {
 	if (canDeploy && authenticated) {
-		googleProjectId = $("#gcloud-id-input").val();
+		var googleProjectId = $("#gcloud-id-input").val();
 		// Create data post request
-		googleProjectData = new Object();
-		googleProjectData.googleCloudProject = googleProjectId;
+		var deployData = getDeployParameters();
 		deployLink = 'http://localhost:8081/';
 		$('#deploymentLink').html('Please wait. This could take a while.<br>Your deployment link will appear here when the process has completed.');
 		canDeploy = false;
 		updateDeployButtons();
 
 		// Send post request
-		$.post("/run-local", googleProjectData, function (data, status) {
+		$.post("/run-local", deployData, function (data, status) {
 			console.log("DATA: " + data);
 			if (data == "START") {
 				$('#deployCmd').html("&gt; ");
@@ -29,17 +47,16 @@ var runLocalFunc = function() {
 
 var runGCloudFunc = function() {
 	if (canDeploy && authenticated) {
-		googleProjectId = $("#gcloud-id-input").val();
+		var googleProjectId = $("#gcloud-id-input").val();
 		// Create data post request
-		googleProjectData = new Object();
-		googleProjectData.googleCloudProject = googleProjectId;
+		var deployData = getDeployParameters();
 		deployLink = 'https://datalab-dot-' + googleProjectId + '.appspot.com/';
 		$('#deploymentLink').html('Please wait. This could take up to 10 minutes.<br>Your deployment link will appear here when the process has completed.');
 		canDeploy = false;
 		updateDeployButtons();
 
 		// Send post request
-		$.post("/run-gcloud", googleProjectData, function (data, status) {
+		$.post("/run-gcloud", deployData, function (data, status) {
 			console.log("DATA: " + data);
 			if (data == "START") {
 				$('#deployCmd').html("&gt; ");

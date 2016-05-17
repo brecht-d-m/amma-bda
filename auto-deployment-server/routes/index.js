@@ -115,8 +115,27 @@ router.post('/run-local', function(req, res) {
 		sys.print('stdout: ' + stdout);
 		sys.print('stderr: ' + stderr);
 		if (error == null) {
+			var psArgs = [];
+			var build = req.body.hasOwnProperty("build") && req.body.build == "true";
+			if(build == true) {
+				psArgs.push("--build")
+			}
+			psArgs.push("--environment");
+
+			// Add environment variables
+			if(req.body.hasOwnProperty("headerBackgroundColor")) { psArgs.push("DATATONIC_HEADER_BACKGROUND_COLOR"); psArgs.push(req.body.headerBackgroundColor.toString()); }
+			if(req.body.hasOwnProperty("headerColor")) { psArgs.push("DATATONIC_HEADER_COLOR"); psArgs.push(req.body.headerColor.toString()); }
+			if(req.body.hasOwnProperty("headerFont")) { psArgs.push("DATATONIC_HEADER_FONT"); psArgs.push(req.body.headerFont.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyName")) { psArgs.push("DATATONIC_HEADER_COMPANY_NAME"); psArgs.push(req.body.headerCompanyName.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLink")) { psArgs.push("DATATONIC_HEADER_COMPANY_LINK"); psArgs.push(req.body.headerCompanyLink.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogo")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO"); psArgs.push(req.body.headerCompanyLogo.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogoAlt")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO_ALT"); psArgs.push(req.body.headerCompanyLogoAlt.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogoWidth")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO_WIDTH"); psArgs.push(req.body.headerCompanyLogoWidth.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogoHeight")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO_HEIGHT"); psArgs.push(req.body.headerCompanyLogoHeight.toString()); }
+
+			console.log(psArgs);
 			// Create new process
-			ps = spawn('/usr/share/datalab/deploy-local.sh');
+			ps = spawn('/usr/share/datalab/deploy-local.sh', psArgs);
 			deployPs = ps;
 
 			ps.stdout.on('data', function(output){
@@ -145,8 +164,29 @@ router.post('/run-gcloud', function(req, res) {
 		sys.print('stdout: ' + stdout);
 		sys.print('stderr: ' + stderr);
 		if (error == null) {
+			var psArgs = [];
+			var build = req.body.hasOwnProperty("build") && req.body.build == "true";
+			if(build == false) {
+				psArgs.push("--repository");
+				psArgs.push("propane-bearing-124123");
+			} else {
+				psArgs.push("--build")
+			}
+			psArgs.push("--environment");
+
+			// Add environment variables
+			if(req.body.hasOwnProperty("headerBackgroundColor")) { psArgs.push("DATATONIC_HEADER_BACKGROUND_COLOR"); psArgs.push(req.body.headerBackgroundColor.toString()); }
+			if(req.body.hasOwnProperty("headerColor")) { psArgs.push("DATATONIC_HEADER_COLOR"); psArgs.push(req.body.headerColor.toString()); }
+			if(req.body.hasOwnProperty("headerFont")) { psArgs.push("DATATONIC_HEADER_FONT"); psArgs.push(req.body.headerFont.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyName")) { psArgs.push("DATATONIC_HEADER_COMPANY_NAME"); psArgs.push(req.body.headerCompanyName.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLink")) { psArgs.push("DATATONIC_HEADER_COMPANY_LINK"); psArgs.push(req.body.headerCompanyLink.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogo")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO"); psArgs.push(req.body.headerCompanyLogo.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogoAlt")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO_ALT"); psArgs.push(req.body.headerCompanyLogoAlt.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogoWidth")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO_WIDTH"); psArgs.push(req.body.headerCompanyLogoWidth.toString()); }
+			if(req.body.hasOwnProperty("headerCompanyLogoHeight")) { psArgs.push("DATATONIC_HEADER_COMPANY_LOGO_HEIGHT"); psArgs.push(req.body.headerCompanyLogoHeight.toString()); }
+
 			// Create new process
-			ps = spawn('/usr/share/datalab/deploy-gcloud.sh', ['--repository', 'propane-bearing-124123']);
+			ps = spawn('/usr/share/datalab/deploy-gcloud.sh', psArgs);
 			deployPs = ps;
 
 			ps.stdout.on('data', function(output){
