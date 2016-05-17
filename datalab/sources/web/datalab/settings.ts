@@ -67,7 +67,7 @@ export function loadSettings(): common.Settings {
 
     // Datatonic settings
     settings.headerBackgroundColor = process.env['DATATONIC_HEADER_BACKGROUND_COLOR'] || '#fff';
-    settings.headerColor = process.env['DATATONIC_HEADER_COLOR'] || '#ff00ff';
+    settings.headerColor = process.env['DATATONIC_HEADER_COLOR'] || '#6d7078';
     settings.headerFont = process.env['DATATONIC_HEADER_FONT'] || "400 17px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif";
     settings.headerCompanyName = process.env['DATATONIC_HEADER_COMPANY_NAME'] || 'Datatonic';
     settings.headerCompanyLink = process.env['DATATONIC_HEADER_COMPANY_LINK'] || 'http://www.datatonic.com';
