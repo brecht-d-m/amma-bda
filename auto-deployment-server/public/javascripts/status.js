@@ -1,9 +1,6 @@
-/**
- * Created by amma on 14.05.16.
- */
 var socket = io.connect('http://localhost:3000');
 
-socket.on('status', function (data) {
+socket.on('status', function (data) {  // server sends status update --> update labels
     updateStatusLabel(document.getElementById("local-status"), data.local, $("#retrieve-local-notebooks"));
     updateStatusLabel(document.getElementById("cloud-status"), data.cloud, $("#retrieve-cloud-notebooks"));
 });
@@ -24,7 +21,7 @@ function updateStatusLabel(label, data, button){
     }
 }
 
-$(document).ready(function(){
+$(document).ready(function(){ // bind changing project id to function
     $("#gcloud-id-input").focusout(function(){
         googleProjectId = $("#gcloud-id-input").val();
         googleProjectData = new Object();

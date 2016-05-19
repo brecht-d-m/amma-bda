@@ -11,48 +11,47 @@ var io = require('socket.io')();
 app.io = io;
 
 var exec = require('child_process').exec;
-
-io.on('connection', function (socket) {
-  // Send status
-  socket.emit("status", {local: local.status, cloud: cloud.status});
-  // Send notebooks to client
-  socket.on('getnotebooks', function (data) {
-    if (data.instance == local.location) { retriever.send_notebooks(local, socket, data.user); }
-    else { retriever.send_notebooks(cloud, socket, data.user); }
-  });
-  // Client requests notebook shutdown
-  socket.on('shutdown', function (data) {
-    var shutdownurl;
-    if (data.location == local.location) { shutdownurl = local.url + "api/sessions/" + data.sessionid; }
-    else { shutdownurl = cloud.url + "api/sessions/" + data.sessionid; }
-    // TODO: reply to client if succesful/unsuccesful ?
-    var cookie = "datalab_user=" + data.user + " ";
-    exec('curl -X DELETE --cookie ' + cookie + shutdownurl,function (error, stdout, stderr) {
-    });
-  });
-});
-
 retriever = require('./bin/notebook_retriever.js');
 
+// variables for the local and cloud deployment
 var local = {location: "local", url: "", status: "?"}, cloud = {location: "cloud", url: "", status: "?"};
 local.url = "http://localhost:8081/";
 cloud.url = "https://datalab-dot-propane-bearing-124123.appspot.com/";
 
-
-setInterval( function(){
+setInterval( function(){  // every 5 seconds, poll the servers for their status and broadcast it to all clients
   updateStatus(local);
   updateStatus(cloud);
   io.sockets.emit("status", {local: local.status, cloud: cloud.status});
 }, 5000);
 
-function updateStatus(instance){
+function updateStatus(instance){  // check if deployments are running
   exec('wget -q -O - "$@" ' + instance.url + "_ah/health",function (error, stdout, stderr) {
-        if (stdout == "ok") instance.status = "ok";
-        else {
-          instance.status = "down";
-        }
-      });
+    if (stdout == "ok") instance.status = "ok";
+    else {
+      instance.status = "down";
+    }
+  });
 }
+
+io.on('connection', function (socket) {
+  socket.emit("status", {local: local.status, cloud: cloud.status});    // Send status
+  
+  socket.on('getnotebooks', function (data) {    // Send notebooks to client on request
+    if (data.instance == local.location) { retriever.send_notebooks(local, socket, data.user); }
+    else { retriever.send_notebooks(cloud, socket, data.user); }
+  });
+  
+  socket.on('shutdown', function (data) {  // Client requests notebook shutdown
+    var shutdownurl;
+    if (data.location == local.location) { shutdownurl = local.url + "api/sessions/" + data.sessionid; }
+    else { shutdownurl = cloud.url + "api/sessions/" + data.sessionid; }
+    // TODO: reply to client if succesful/unsuccesful ?
+    var cookie = "datalab_user=" + data.user + " ";  // cookie needed to give user access to sessions
+    exec('curl -X DELETE --cookie ' + cookie + shutdownurl,function (error, stdout, stderr) {
+    });
+  });
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
