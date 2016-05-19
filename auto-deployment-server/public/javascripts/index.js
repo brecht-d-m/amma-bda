@@ -1,14 +1,15 @@
 var socket = io.connect('http://localhost:3000');
 
 socket.on('notebook', function (data) {
-    // ?view=codeView ?view=textView ?view=textOutputView
     var row = document.createElement("tr");
 	var linkitem = document.createElement("td");
     var statusitem = document.createElement("td");
 
     var link = document.createElement("a");
 	link.innerHTML = data.name;
-	link.setAttribute("href", data.path);
+    // ?view=codeView ?view=textView ?view=textOutputView
+
+    link.setAttribute("href", data.path);
     var status = createNotebookStatus(data);
     
     linkitem.appendChild(link);
